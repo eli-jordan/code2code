@@ -13,8 +13,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.text;bundle-version="3.4.0",
  org.eclipse.ui.console;bundle-version="3.3.0",
  org.eclipse.core.filesystem;bundle-version="1.2.0"
-Bundle-ClassPath: lib/freemarker.jar,
- .,
+Bundle-ClassPath: .,
+ lib/freemarker.jar,
  lib/velocity-1.6-dep.jar,
  lib/groovy-all-1.5.7.jar
 Export-Package: 
