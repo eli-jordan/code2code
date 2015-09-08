@@ -36,7 +36,7 @@ class UserParams
       }
       else
       {
-         m_templateEngine = TemplateEngineFactory.nullTemplateEngine();
+         m_templateEngine = TemplateEngineFactory.noop();
       }
 
       setUserConfiguredParams(getRequiredParameters());

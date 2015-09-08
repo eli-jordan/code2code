@@ -70,13 +70,36 @@ public class VelocityTemplateEngine extends AbstractTemplateEngine implements Te
       return escaped;
    }
 
+   /**
+    * Initialise the engine
+    * @param generator
+    * @return
+    * @throws Exception
+    */
    private VelocityEngine createVelocityEngine(Generator generator) throws Exception
    {
-      VelocityEngine velocityEngine = new VelocityEngine();
-      Properties properties = new Properties();
-      properties.setProperty("file.resource.loader.path", generator.getGeneratorFolder().getLocation().toString());
-      velocityEngine.init(properties);
-      return velocityEngine;
+      // Velocity uses the thread context class loader to load classes based on name.
+      // Since we are in OSGi this doesn't work as expected. To make the this work
+      // override the thread context class loader with this bundles loader. This works
+      // because velocity and all its dependencies are bundled.
+      Thread thread = Thread.currentThread();
+      ClassLoader before = thread.getContextClassLoader();
+      try
+      {
+         thread.setContextClassLoader(getClass().getClassLoader());
+         
+         Properties properties = new Properties();
+         properties.setProperty("file.resource.loader.path", generator.getGeneratorFolder().getLocation().toString());
+         
+         VelocityEngine engine = new VelocityEngine();
+         engine.init(properties);
+
+         return engine;
+      }
+      finally
+      {
+         thread.setContextClassLoader(before);
+      }
    }
 
    private VelocityContext createVelocityContext(Map<String, String> context)

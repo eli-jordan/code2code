@@ -1,18 +1,24 @@
 package pageobjects;
 
-import utils.Driver;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.intro.IIntroManager;
 
-public class Workbench {
-
-	private static boolean welcomeClosed = false;
-
-	public static void closeWelcomeView() throws Exception {
-		if (!welcomeClosed) {
-			Driver.bot().view("Welcome").close();
-			welcomeClosed = true;
-		}
-	}
-
-
+public class Workbench
+{
+   public static void closeWelcomeView() throws Exception
+   {
+      Display.getDefault().syncExec(new Runnable()
+      {
+         public void run()
+         {
+            IIntroManager introManager = PlatformUI.getWorkbench().getIntroManager();
+            if (introManager.getIntro() != null)
+            {
+               introManager.closeIntro(introManager.getIntro());
+            }
+         }
+      });
+   }
 
 }

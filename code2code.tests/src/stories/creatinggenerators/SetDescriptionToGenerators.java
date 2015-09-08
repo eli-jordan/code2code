@@ -6,13 +6,12 @@ import steps.CreateGeneratorSteps;
 import steps.GenerateFilesSteps;
 import steps.ProjectSteps;
 
-public class SetDescriptionToGenerators extends Scenario {
-	
-	
-	public SetDescriptionToGenerators() {
-       super(new ProjectSteps(), new CreateGeneratorSteps(), new GenerateFilesSteps());
-    }
+public class SetDescriptionToGenerators extends Scenario
+{
 
+   public SetDescriptionToGenerators()
+   {
+      super(new ProjectSteps(), new CreateGeneratorSteps(), new GenerateFilesSteps());
+   }
 
-	
 }

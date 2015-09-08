@@ -1,20 +1,30 @@
 package code2code.utils;
 
+import java.io.IOException;
+
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 
+/**
+ * Utility to output test to the console
+ */
 public class Console
 {
+   /** the constant name of the console used to write the result of the template instantation to */
    private static final String CONSOLE_NAME = "code2code.console";
 
-   public static MessageConsole getConsole()
+   /**
+    * @return
+    *   the console to use for output
+    */
+   private static MessageConsole getConsole()
    {
       ConsolePlugin plugin = ConsolePlugin.getDefault();
-      IConsoleManager conMan = plugin.getConsoleManager();
-      IConsole[] existing = conMan.getConsoles();
+      IConsoleManager manager = plugin.getConsoleManager();
+      IConsole[] existing = manager.getConsoles();
       for (int i = 0; i < existing.length; i++)
       {
          if (CONSOLE_NAME.equals(existing[i].getName()))
@@ -23,24 +33,38 @@ public class Console
          }
       }
       MessageConsole myConsole = new MessageConsole(CONSOLE_NAME, null);
-      conMan.addConsoles(new IConsole[] {myConsole});
+      manager.addConsoles(new IConsole[] {myConsole});
       return myConsole;
    }
 
-   public static void write(String text) throws Exception
+   /**
+    * Write the specified text to the console
+    * @param p_text
+    * @throws IOException
+    */
+   public static void write(String p_text) throws IOException
    {
-
-      ConsolePlugin.getDefault().getConsoleManager().showConsoleView(getConsole());
-
-      MessageConsoleStream out = getConsole().newMessageStream();
-      out.println(text);
-      out.flush();
-      out.close();
+      MessageConsole console = getConsole();
+      ConsolePlugin.getDefault().getConsoleManager().showConsoleView(console);
+      MessageConsoleStream out = console.newMessageStream();
+      try
+      {
+         out.println(p_text);
+      }
+      finally
+      {
+         out.flush();
+         out.close();
+      }
    }
 
+   /**
+    * Used by tests
+    * @return
+    *   the text currently on the console
+    */
    public static String getText()
    {
       return getConsole().getDocument().get();
    }
-
 }

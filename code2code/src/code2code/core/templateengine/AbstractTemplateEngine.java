@@ -13,25 +13,8 @@ import code2code.core.generator.Generator;
 /**
  * The base class for the templating engines
  */
-public abstract class AbstractTemplateEngine implements TemplateEngine
+abstract class AbstractTemplateEngine implements TemplateEngine
 {
-   /**
-    * @see code2code.core.templateengine.TemplateEngine#canFindKnownFile(org.eclipse.core.resources.IFolder, java.lang.String)
-    */
-   @Override
-   public boolean canFindKnownFile(IFolder folder, String fileName)
-   {
-      for (String extension : getKnownExtensions())
-      {
-         if (folder.getFile(fileName + "." + extension).exists())
-         {
-            return true;
-         }
-      }
-
-      return false;
-   }
-
    /**
     * @see code2code.core.templateengine.TemplateEngine#getKnownFile(org.eclipse.core.resources.IFolder, java.lang.String)
     */

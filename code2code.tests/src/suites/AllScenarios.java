@@ -22,30 +22,28 @@ import stories.usingthegenerator.SetParamsForGeneration;
 import stories.usingthegenerator.SetTemplatesDestinations;
 import stories.usingthegenerator.UseGlobalParams;
 
-
 @RunWith(Suite.class)
 @SuiteClasses({
-		CreateGenerators.class,
-		SetParamsForGenerators.class,
-		ChooseFilesThatWillBeGenerated.class,
-		UseTemplateEngines.class,
-		SetParamsForGeneration.class,
-		SetTemplatesDestinations.class,
-		SetDescriptionToGenerators.class,
-		PreviewTheOutput.class,
-		UseGlobalParams.class,
-		GenerateTemplatesToConsole.class,
-		LogGenerationToConsole.class,
-		ParamsReferencingOtherParams.class,
-		SetTemplatesToBeGenerated.class,
-		CreateCompositeGenerators.class,
-		GenerateFiles.class,
-		SetTemplateEngineForTemplateFiles.class,
-		SetTemplateEngineForTheTemplatesConfigFile.class
-
-
+   CreateGenerators.class,
+   SetParamsForGenerators.class,
+   ChooseFilesThatWillBeGenerated.class,
+   UseTemplateEngines.class,
+   SetParamsForGeneration.class,
+   SetTemplatesDestinations.class,
+   SetDescriptionToGenerators.class,
+   PreviewTheOutput.class,
+   UseGlobalParams.class,
+   GenerateTemplatesToConsole.class,
+   LogGenerationToConsole.class,
+   ParamsReferencingOtherParams.class,
+   SetTemplatesToBeGenerated.class,
+   CreateCompositeGenerators.class,
+   GenerateFiles.class,
+   SetTemplateEngineForTemplateFiles.class,
+   SetTemplateEngineForTheTemplatesConfigFile.class
 
 })
-public class AllScenarios {
-	
+public class AllScenarios
+{
+
 }

@@ -1,0 +1,7 @@
+<config>
+	<context-values>
+		<resource path="generators/VelocityTest.generator/test.vm">
+			<value key="data" object-class="java.lang.String"/>
+		</resource>
+	</context-values>
+</config>

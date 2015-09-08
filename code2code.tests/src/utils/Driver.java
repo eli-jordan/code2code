@@ -1,16 +1,18 @@
 package utils;
 
-import org.eclipse.swtbot.eclipse.finder.SWTEclipseBot;
+import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 
-public class Driver {
+public class Driver
+{
+   private static SWTWorkbenchBot bot;
 
-	private static SWTEclipseBot bot;
-
-	public static SWTEclipseBot bot() {
-		if (bot == null) {
-			bot = new SWTEclipseBot();
-		}
-		return bot;
-	}
+   public static SWTWorkbenchBot bot()
+   {
+      if (bot == null)
+      {
+         bot = new SWTWorkbenchBot();
+      }
+      return bot;
+   }
 
 }
