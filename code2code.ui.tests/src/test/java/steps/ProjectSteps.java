@@ -6,18 +6,17 @@ import org.jbehave.scenario.annotations.Given;
 import org.jbehave.scenario.annotations.When;
 import org.jbehave.scenario.steps.Steps;
 
+import domain.WorkingProject;
 import pageobjects.PackageExplorer;
 import pageobjects.Workbench;
-import domain.WorkingProject;
 
 public class ProjectSteps extends Steps
 {
-
-   @BeforeScenario
-   public void closeWelcome() throws Exception
-   {
-      Workbench.closeWelcomeView();
-   }
+	@BeforeScenario
+	public void closeWelcome() throws Exception
+	{
+		Workbench.closeWelcomeView();
+	}
 
    @Given("I have a new project")
    public void createNewProject() throws Exception

@@ -3,6 +3,7 @@ package pageobjects;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.ChildrenControlFinder;
@@ -25,7 +26,9 @@ public class PackageExplorer
 
    public static SWTBotTree selectProject(IProject project) throws WidgetNotFoundException
    {
-      SWTBotView packageExplorerView = Driver.bot().viewByTitle("Project Explorer");
+	   SWTWorkbenchBot bot = Driver.bot();
+	   
+      SWTBotView packageExplorerView = bot.viewByTitle("Project Explorer");
 
       Widget widget = packageExplorerView.getWidget();
       Matcher<Tree> widgetOfType = WidgetMatcherFactory.widgetOfType(Tree.class);
