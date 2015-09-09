@@ -14,8 +14,6 @@ import stories.creatinggenerators.SetTemplatesToBeGenerated;
 import stories.creatinggenerators.UseTemplateEngines;
 import stories.usingthegenerator.ChooseFilesThatWillBeGenerated;
 import stories.usingthegenerator.GenerateFiles;
-import stories.usingthegenerator.GenerateTemplatesToConsole;
-import stories.usingthegenerator.LogGenerationToConsole;
 import stories.usingthegenerator.ParamsReferencingOtherParams;
 import stories.usingthegenerator.PreviewTheOutput;
 import stories.usingthegenerator.SetParamsForGeneration;
@@ -34,8 +32,8 @@ import stories.usingthegenerator.UseGlobalParams;
    SetDescriptionToGenerators.class,
    PreviewTheOutput.class,
    UseGlobalParams.class,
-   GenerateTemplatesToConsole.class,
-   LogGenerationToConsole.class,
+   //GenerateTemplatesToConsole.class,
+   //LogGenerationToConsole.class,
    ParamsReferencingOtherParams.class,
    SetTemplatesToBeGenerated.class,
    CreateCompositeGenerators.class,
