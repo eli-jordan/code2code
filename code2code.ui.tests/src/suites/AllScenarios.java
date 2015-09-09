@@ -23,7 +23,8 @@ import stories.usingthegenerator.SetTemplatesDestinations;
 import stories.usingthegenerator.UseGlobalParams;
 
 @RunWith(Suite.class)
-@SuiteClasses({
+@SuiteClasses(
+{
    CreateGenerators.class,
    SetParamsForGenerators.class,
    ChooseFilesThatWillBeGenerated.class,
