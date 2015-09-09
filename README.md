@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/eli-jordan/code2code.svg?branch=master)](https://travis-ci.org/eli-jordan/code2code)
+
 
 # Under Development
 
