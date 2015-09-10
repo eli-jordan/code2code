@@ -34,7 +34,7 @@ push_artifacts() {
   git config --global user.email "travis@travis-ci.org"
   git config --global user.name "Travis"
 
-  if [ -e "$HOME/$GH_BRANCH" ]
+  if [ -e "$HOME/$GH_BRANCH/.git" ]
   then
      echo "Updating git repo using 'git pull'"
      cd "$HOME/$GH_BRANCH"
