@@ -1,0 +1,2 @@
+commonParam=Nested value
+		nestedParam

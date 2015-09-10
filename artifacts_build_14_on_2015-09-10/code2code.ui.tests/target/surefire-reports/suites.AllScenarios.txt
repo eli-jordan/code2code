@@ -1,0 +1,19 @@
+-------------------------------------------------------------------------------
+Test set: suites.AllScenarios
+-------------------------------------------------------------------------------
+Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.793 sec - in suites.AllScenarios
+testScenario(stories.creatinggenerators.CreateGenerators)  Time elapsed: 1.848 sec
+testScenario(stories.creatinggenerators.SetParamsForGenerators)  Time elapsed: 0.732 sec
+testScenario(stories.usingthegenerator.ChooseFilesThatWillBeGenerated)  Time elapsed: 0.229 sec
+testScenario(stories.creatinggenerators.UseTemplateEngines)  Time elapsed: 1.328 sec
+testScenario(stories.usingthegenerator.SetParamsForGeneration)  Time elapsed: 0.491 sec
+testScenario(stories.usingthegenerator.SetTemplatesDestinations)  Time elapsed: 0.176 sec
+testScenario(stories.creatinggenerators.SetDescriptionToGenerators)  Time elapsed: 0.199 sec
+testScenario(stories.usingthegenerator.PreviewTheOutput)  Time elapsed: 0.421 sec
+testScenario(stories.usingthegenerator.UseGlobalParams)  Time elapsed: 0.16 sec
+testScenario(stories.usingthegenerator.ParamsReferencingOtherParams)  Time elapsed: 0.209 sec
+testScenario(stories.creatinggenerators.SetTemplatesToBeGenerated)  Time elapsed: 0.191 sec
+testScenario(stories.creatinggenerators.CreateCompositeGenerators)  Time elapsed: 0.235 sec
+testScenario(stories.usingthegenerator.GenerateFiles)  Time elapsed: 0.17 sec
+testScenario(stories.creatinggenerators.SetTemplateEngineForTemplateFiles)  Time elapsed: 0.174 sec
+testScenario(stories.creatinggenerators.SetTemplateEngineForTheTemplatesConfigFile)  Time elapsed: 0.147 sec

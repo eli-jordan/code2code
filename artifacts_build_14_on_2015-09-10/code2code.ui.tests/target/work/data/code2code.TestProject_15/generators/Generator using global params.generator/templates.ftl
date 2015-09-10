@@ -1,0 +1,1 @@
+templates/GeneratorUsingGlobalParams.txt.ftl=Generator using global params.txt
