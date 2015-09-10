@@ -1,0 +1,4 @@
+# we don't want to run CI for the build artifacs branch
+branches:
+  except:
+    - build-artifacts
