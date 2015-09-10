@@ -27,7 +27,7 @@ before_script:
 - metacity --sm-disable --replace 2> metacity.err &
 
 script:
-- export
+- export | grep -v 'GH_TOKEN'
 - mvn clean verify
 
 after_script:
