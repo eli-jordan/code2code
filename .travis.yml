@@ -29,6 +29,9 @@ before_script:
 script:
 - export | grep -v 'GH_TOKEN'
 - mvn clean verify
-
-after_script:
 - ./push-build-artifacts.sh
+
+# we don't want to run CI for the build artifacs branch
+branches:
+  except:
+    - build-artifacts
