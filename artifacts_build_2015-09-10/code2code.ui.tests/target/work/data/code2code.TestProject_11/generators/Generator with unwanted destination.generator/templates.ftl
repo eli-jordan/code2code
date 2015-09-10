@@ -1,1 +1,0 @@
-templates/TemplateWithUnwantedDestination.txt.ftl=UnwantedFolder/Template with unwanted destination.txt

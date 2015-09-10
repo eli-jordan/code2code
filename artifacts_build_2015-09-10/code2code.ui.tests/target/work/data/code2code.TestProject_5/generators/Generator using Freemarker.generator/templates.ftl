@@ -1,1 +1,0 @@
-templates/FreemarkerTemplate.txt.ftl=${engine} template.txt

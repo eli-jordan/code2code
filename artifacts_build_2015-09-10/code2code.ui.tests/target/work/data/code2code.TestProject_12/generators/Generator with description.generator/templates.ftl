@@ -1,1 +1,0 @@
-templates/Generatorwithdescription.txt.ftl=Generator with description.txt
