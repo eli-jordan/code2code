@@ -1,0 +1,1 @@
+templates/GroovyTemplate.txt.groovy=<%=engine.toLowerCase()%> template.txt
