@@ -1,0 +1,1 @@
+templates/Templatetobegenerated.txt.ftl=Destination.txt

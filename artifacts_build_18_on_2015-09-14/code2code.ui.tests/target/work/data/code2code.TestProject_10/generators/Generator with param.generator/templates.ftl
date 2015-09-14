@@ -1,0 +1,1 @@
+templates/Generatorwithparam.txt.ftl=Generator with param.txt
