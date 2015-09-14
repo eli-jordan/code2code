@@ -1,11 +1,12 @@
 package code2code.core.templateengine;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import code2code.core.generator.Generator;
-import code2code.utils.FileUtils;
+import code2code.core.utils.FileUtils;
 
 /**
  * A templating engine that performs no substitutions
@@ -25,7 +26,7 @@ public class PlainTemplateEngine extends AbstractTemplateEngine implements Templ
     * @see code2code.core.templateengine.AbstractTemplateEngine#processMap(code2code.core.generator.Generator, java.util.Map, java.util.Map)
     */
    @Override
-   public Map<String, String> processMap(Generator generator, Map<String, String> params, Map<String, String> context)
+   public Map<String, String> processMap(Map<String, String> params, Map<String, Object> context)
    {
       return params;
    }
@@ -34,7 +35,7 @@ public class PlainTemplateEngine extends AbstractTemplateEngine implements Templ
     * @see code2code.core.templateengine.TemplateEngine#processString(code2code.core.generator.Generator, java.lang.String, java.util.Map)
     */
    @Override
-   public String processString(Generator generator, String content, Map<String, String> context) throws Exception
+   public String processString(String content, Map<String, Object> context) throws Exception
    {
       return content;
    }
@@ -43,9 +44,10 @@ public class PlainTemplateEngine extends AbstractTemplateEngine implements Templ
     * @see code2code.core.templateengine.TemplateEngine#processTemplate(code2code.core.generator.Generator, java.lang.String, java.util.Map)
     */
    @Override
-   public String processTemplate(Generator generator, String templateName, Map<String, String> context) throws Exception
+   public String processTemplate(File p_generatorRoot, String templateName, Map<String, Object> context) throws Exception
    {
-      return FileUtils.toString(generator.getGeneratorFolder().getFile(templateName).getContents());
+      File templateFile = new File(p_generatorRoot, templateName);
+      return FileUtils.toString(new FileInputStream(templateFile));
    }
 
    /**

@@ -3,11 +3,9 @@
  */
 package code2code.core.templateengine;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
 
 /**
  * Provide lookups for template engines based on file extensions
@@ -32,11 +30,11 @@ public class TemplateEngineFactory
     * @return
     *   the file, or null
     */
-   public static IFile findKnownTemplate(IFolder folder, String fileName)
+   public File findKnownTemplate(File folder, String fileName)
    {
       for (TemplateEngine templateEngine : s_engines)
       {
-         IFile knownFile = templateEngine.getKnownFile(folder, fileName);
+         File knownFile = templateEngine.getKnownFile(folder, fileName);
          if (knownFile != null)
          {
             return knownFile;
@@ -51,7 +49,7 @@ public class TemplateEngineFactory
     * @return
     *   the template engine or null if none is found
     */
-   public static TemplateEngine forFile(IFile p_file)
+   public TemplateEngine forFile(File p_file)
    {
       return forFileName(p_file.getName());
    }
@@ -62,7 +60,7 @@ public class TemplateEngineFactory
     * @return
     *   the template engine or null if none is found
     */
-   public static TemplateEngine forFileName(String p_fileName)
+   public TemplateEngine forFileName(String p_fileName)
    {
       for (TemplateEngine templateEngine : s_engines)
       {
@@ -79,7 +77,7 @@ public class TemplateEngineFactory
     * @return
     *   a template engine that doesn't perform an substitutions
     */
-   public static TemplateEngine noop()
+   public TemplateEngine noop()
    {
       return new PlainTemplateEngine();
    }
@@ -90,7 +88,7 @@ public class TemplateEngineFactory
     * @return
     *   the template engine or null if none are found
     */
-   public static TemplateEngine forExtension(String p_extension)
+   public TemplateEngine forExtension(String p_extension)
    {
       for (TemplateEngine templateEngine : s_engines)
       {

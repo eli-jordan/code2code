@@ -16,9 +16,9 @@ import org.eclipse.ui.IWorkbench;
 
 import code2code.core.generator.Generator;
 import code2code.core.generator.Template;
+import code2code.core.utils.FileUtils;
 import code2code.utils.Console;
 import code2code.utils.EclipseGuiUtils;
-import code2code.utils.FileUtils;
 
 /**
  * The wizard to generate templated files

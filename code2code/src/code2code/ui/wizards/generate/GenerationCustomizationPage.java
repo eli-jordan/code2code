@@ -7,7 +7,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import code2code.core.generator.Generator;
+import code2code.core.generator.OldGenerator;
 import code2code.core.generator.Template;
 import code2code.utils.EclipseGuiUtils;
 
@@ -79,7 +79,7 @@ public class GenerationCustomizationPage extends WizardPage
          m_contents.dispose();
       }
 
-      final Generator selectedGenerator = m_generatorParametersPage.getSelectedGenerator();
+      final OldGenerator selectedGenerator = m_generatorParametersPage.getSelectedGenerator();
 
       List<Template> templates = selectedGenerator.getTemplates();
 

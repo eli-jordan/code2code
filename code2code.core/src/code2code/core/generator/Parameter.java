@@ -1,0 +1,83 @@
+/********************************************************************/
+/* (c) Elias Jordan 2015                                            */
+/********************************************************************/
+
+package code2code.core.generator;
+
+/**
+ * Represents a template parameter
+ */
+class Parameter
+{
+   /** the name of the parameter */
+   private final String m_name;
+   
+   /** the default value */
+   private final String m_defaultValue;
+   
+   /** the actual value */
+   private Object m_value;
+
+   Parameter(String p_name, String p_defaultValue)
+   {
+      m_name = p_name;
+      m_defaultValue = p_defaultValue;
+   }
+   
+   /**
+    * @return
+    *   the name of this parameter
+    */
+   public String name()
+   {
+      return m_name;
+   }
+
+   /**
+    * @return
+    *   the value of the parameter
+    */
+   public Object value()
+   {
+      return m_value == null ? m_defaultValue : m_value;
+   }
+   
+   /**
+    * Set the value of the parameter
+    * @param p_value
+    */
+   public void value(Object p_value)
+   {
+      m_value = p_value;
+   }
+   
+
+   @Override
+   public int hashCode()
+   {
+      final int prime = 31;
+      int result = 1;
+      result = prime * result + ((m_name == null) ? 0 : m_name.hashCode());
+      return result;
+   }
+
+   @Override
+   public boolean equals(Object obj)
+   {
+      if (this == obj)
+         return true;
+      if (obj == null)
+         return false;
+      if (getClass() != obj.getClass())
+         return false;
+      Parameter other = (Parameter) obj;
+      if (m_name == null)
+      {
+         if (other.m_name != null)
+            return false;
+      }
+      else if (!m_name.equals(other.m_name))
+         return false;
+      return true;
+   }
+}

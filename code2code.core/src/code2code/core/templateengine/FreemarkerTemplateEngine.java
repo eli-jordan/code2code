@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import code2code.core.generator.Generator;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.cache.MultiTemplateLoader;
 import freemarker.cache.StringTemplateLoader;
@@ -35,12 +34,11 @@ public class FreemarkerTemplateEngine extends AbstractTemplateEngine implements 
     * @see code2code.core.templateengine.TemplateEngine#processString(code2code.core.generator.Generator, java.lang.String, java.util.Map)
     */
    @Override
-   public String processString(Generator generator, String templateContent, Map<String, String> context) throws Exception
+   public String processString(String templateContent, Map<String, Object> context) throws Exception
    {
-
       Configuration configuration = new Configuration();
 
-      configuration.setDirectoryForTemplateLoading(new File(generator.getGeneratorFolder().getLocationURI()));
+      //configuration.setDirectoryForTemplateLoading(new File(generator.getGeneratorFolder().getLocationURI()));
 
       StringTemplateLoader stringTemplateLoader = new StringTemplateLoader();
       FileTemplateLoader fileTemplateLoader = new FileTemplateLoader();
@@ -68,17 +66,17 @@ public class FreemarkerTemplateEngine extends AbstractTemplateEngine implements 
     * @see code2code.core.templateengine.TemplateEngine#processTemplate(code2code.core.generator.Generator, java.lang.String, java.util.Map)
     */
    @Override
-   public String processTemplate(Generator generator, String templateName, Map<String, String> context) throws Exception
+   public String processTemplate(File p_generatorRoot, String p_templateFile, Map<String, Object> p_context) throws Exception
    {
       Configuration configuration = new Configuration();
-      configuration.setDirectoryForTemplateLoading(new File(generator.getGeneratorFolder().getLocationURI()));
+      configuration.setDirectoryForTemplateLoading(p_generatorRoot);
 
-      Template template = configuration.getTemplate(templateName);
+      Template template = configuration.getTemplate(p_templateFile);
 
       Writer out = new StringWriter();
 
       Map<String, Object> root = new HashMap<String, Object>();
-      root.putAll(context);
+      root.putAll(p_context);
 
       template.process(root, out, new DefaultObjectWrapper());
       return out.toString();

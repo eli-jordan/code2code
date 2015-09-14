@@ -1,11 +1,7 @@
 package code2code.core.templateengine;
 
+import java.io.File;
 import java.util.Map;
-
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-
-import code2code.core.generator.Generator;
 
 /**
  * Interface for the engines that apply substitutions for the templates
@@ -20,7 +16,7 @@ public interface TemplateEngine
     * @return
     *   the file
     */
-   IFile getKnownFile(IFolder p_folder, String p_fileName);
+   File getKnownFile(File p_folder, String p_fileName);
 
    /**
     * @param p_fileName
@@ -41,7 +37,7 @@ public interface TemplateEngine
     *   the result of processing the map
     * @throws Exception
     */
-   Map<String, String> processMap(Generator p_generator, Map<String, String> p_process, Map<String, String> p_initialContext) throws Exception;
+   Map<String, String> processMap(Map<String, String> p_process, Map<String, Object> p_initialContext) throws Exception;
 
    /**
     * Apply the templating engine to the given string
@@ -55,12 +51,12 @@ public interface TemplateEngine
     *   the processed string
     * @throws Exception
     */
-   String processString(Generator p_generator, String p_content, Map<String, String> p_context) throws Exception;
+   String processString(String p_content, Map<String, Object> p_context) throws Exception;
 
    /**
     * Apply the templating engine to the specified template file
-    * @param p_generator
-    *   the source generator
+    * @param p_generatorRoot
+    *   the directory that defiens the generator
     * @param p_templateFile
     *   the name of the template file
     * @param p_context
@@ -69,7 +65,7 @@ public interface TemplateEngine
     *   the result of instantiating the template
     * @throws Exception
     */
-   String processTemplate(Generator p_generator, String p_templateFile, Map<String, String> p_context) throws Exception;
+   String processTemplate(File p_generatorRoot, String p_templateFile, Map<String, Object> p_context) throws Exception;
 
    /**
     * @param p_extension

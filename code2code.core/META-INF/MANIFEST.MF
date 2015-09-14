@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: code2code.core
+Bundle-SymbolicName: code2code.core
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ClassPath: .,
+ lib/freemarker.jar,
+ lib/groovy-all-1.5.7.jar,
+ lib/velocity-1.7-dep.jar
+Export-Package: code2code.core.generator,
+ code2code.core.templateengine,
+ code2code.core.utils

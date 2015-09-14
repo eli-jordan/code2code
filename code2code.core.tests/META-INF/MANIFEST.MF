@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: code2code.core.tests
+Bundle-SymbolicName: code2code.core.tests
+Bundle-Version: 1.0.0.qualifier
+Fragment-Host: code2code.core;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

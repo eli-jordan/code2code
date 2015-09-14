@@ -1,4 +1,4 @@
-package code2code.utils;
+package code2code.core.utils;
 
 import java.io.IOException;
 import java.io.InputStream;

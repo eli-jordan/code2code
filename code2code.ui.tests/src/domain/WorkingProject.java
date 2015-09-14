@@ -1,11 +1,12 @@
 package domain;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.net.URI;
 
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -13,7 +14,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 
-import code2code.utils.FileUtils;
+import code2code.core.utils.FileUtils;
 
 public class WorkingProject
 {
@@ -65,14 +66,13 @@ public class WorkingProject
 
    public static void createFolder(String folderName) throws Exception
    {
-      FileUtils.createFolderWithParents(project.getFolder(folderName));
+      project.getFolder(folderName).getFullPath().toFile().mkdirs();
    }
 
    public static void createFileWithContents(String filePath, String content) throws Exception
    {
-      IFile file = project.getFile(filePath);
-      FileUtils.createParentFolders(file);
-      file.create(new ByteArrayInputStream(content.getBytes()), true, null);
+      File file = project.getFile(filePath).getFullPath().toFile();
+      FileUtils.write(content, file);
    }
 
    public static void createFile(String filePath) throws Exception

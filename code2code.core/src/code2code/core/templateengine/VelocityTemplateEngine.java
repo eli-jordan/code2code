@@ -1,5 +1,6 @@
 package code2code.core.templateengine;
 
+import java.io.File;
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
@@ -8,8 +9,6 @@ import java.util.Properties;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-
-import code2code.core.generator.Generator;
 
 /**
  * A templating engine that uses apache velocity as a backing implementation
@@ -26,27 +25,27 @@ public class VelocityTemplateEngine extends AbstractTemplateEngine implements Te
    }
 
    /**
-    * @see code2code.core.templateengine.TemplateEngine#processTemplate(code2code.core.generator.Generator, java.lang.String, java.util.Map)
+    * @see code2code.core.templateengine.TemplateEngine#processTemplate(code2code.core.generator.OldGenerator, java.lang.String, java.util.Map)
     */
    @Override
-   public String processTemplate(Generator generator, String templateName, Map<String, String> context) throws Exception
+   public String processTemplate(File p_generatorRoot, String p_templateName, Map<String, Object> p_context) throws Exception
    {
-      VelocityEngine velocityEngine = createVelocityEngine(generator);
-      VelocityContext velocityContext = createVelocityContext(context);
+      VelocityEngine velocityEngine = createVelocityEngine(p_generatorRoot);
+      VelocityContext velocityContext = createVelocityContext(p_context);
 
       StringWriter writer = new StringWriter();
-      velocityEngine.mergeTemplate(templateName, "UTF-8", velocityContext, writer);
+      velocityEngine.mergeTemplate(p_templateName, "UTF-8", velocityContext, writer);
 
       return writer.toString();
    }
 
    /**
-    * @see code2code.core.templateengine.TemplateEngine#processString(code2code.core.generator.Generator, java.lang.String, java.util.Map)
+    * @see code2code.core.templateengine.TemplateEngine#processString(code2code.core.generator.OldGenerator, java.lang.String, java.util.Map)
     */
    @Override
-   public String processString(Generator generator, String templateContent, Map<String, String> context) throws Exception
+   public String processString(String templateContent, Map<String, Object> context) throws Exception
    {
-      VelocityEngine velocityEngine = createVelocityEngine(generator);
+      VelocityEngine velocityEngine = createVelocityEngine(null);
       VelocityContext velocityContext = createVelocityContext(context);
 
       StringWriter writer = new StringWriter();
@@ -76,7 +75,7 @@ public class VelocityTemplateEngine extends AbstractTemplateEngine implements Te
     * @return
     * @throws Exception
     */
-   private VelocityEngine createVelocityEngine(Generator generator) throws Exception
+   private VelocityEngine createVelocityEngine(File p_generatorRoot) throws Exception
    {
       // Velocity uses the thread context class loader to load classes based on name.
       // Since we are in OSGi this doesn't work as expected. To make the this work
@@ -89,7 +88,10 @@ public class VelocityTemplateEngine extends AbstractTemplateEngine implements Te
          thread.setContextClassLoader(getClass().getClassLoader());
          
          Properties properties = new Properties();
-         properties.setProperty("file.resource.loader.path", generator.getGeneratorFolder().getLocation().toString());
+         if(p_generatorRoot != null)
+         {
+            properties.setProperty("file.resource.loader.path", p_generatorRoot.getCanonicalPath());
+         }
          
          VelocityEngine engine = new VelocityEngine();
          engine.init(properties);
@@ -102,7 +104,7 @@ public class VelocityTemplateEngine extends AbstractTemplateEngine implements Te
       }
    }
 
-   private VelocityContext createVelocityContext(Map<String, String> context)
+   private VelocityContext createVelocityContext(Map<String, Object> context)
    {
       VelocityContext velocityContext = new VelocityContext();
 

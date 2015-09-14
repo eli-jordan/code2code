@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-import code2code.core.generator.Generator;
+import code2code.core.generator.OldGenerator;
 import code2code.utils.EclipseGuiUtils;
 
 /**
@@ -38,7 +38,7 @@ public class GeneratorParametersPage extends WizardPage
    private final GeneratorSelectionPage m_generatorSelectionPage;
 
    /** the generator that was select on the GeneratorSelectionPage */
-   private Generator m_selectedGenerator;
+   private OldGenerator m_selectedGenerator;
 
    /**
     * Constructor
@@ -226,7 +226,7 @@ public class GeneratorParametersPage extends WizardPage
     * @return
     *   the selected generator
     */
-   public Generator getSelectedGenerator()
+   public OldGenerator getSelectedGenerator()
    {
       return m_generatorSelectionPage.getSelectedGenerator();
    }

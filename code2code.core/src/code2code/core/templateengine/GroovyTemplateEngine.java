@@ -1,16 +1,16 @@
 package code2code.core.templateengine;
 
-import groovy.lang.Writable;
-import groovy.text.SimpleTemplateEngine;
-import groovy.text.Template;
-
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import code2code.core.generator.Generator;
-import code2code.utils.FileUtils;
+import code2code.core.utils.FileUtils;
+import groovy.lang.Writable;
+import groovy.text.SimpleTemplateEngine;
+import groovy.text.Template;
 
 /**
  * A templating engine that uses groovy templates as a backing implementation
@@ -30,13 +30,13 @@ public class GroovyTemplateEngine extends AbstractTemplateEngine implements Temp
     * @see code2code.core.templateengine.TemplateEngine#processTemplate(code2code.core.generator.Generator, java.lang.String, java.util.Map)
     */
    @Override
-   public String processTemplate(Generator generator, String templateName, Map<String, String> context) throws Exception
+   public String processTemplate(File p_generatorRoot, String p_templateName, Map<String, Object> p_context) throws Exception
    {
       SimpleTemplateEngine engine = new SimpleTemplateEngine();
 
-      Template template = engine.createTemplate(FileUtils.toString(generator.getGeneratorFolder().getFile(templateName).getContents()));
-
-      Writable writable = template.make(context);
+      File file = new File(p_generatorRoot, p_templateName);
+      Template template = engine.createTemplate(FileUtils.toString(new FileInputStream(file)));
+      Writable writable = template.make(p_context);
 
       StringWriter stringWriter = new StringWriter();
       writable.writeTo(stringWriter);
@@ -48,7 +48,7 @@ public class GroovyTemplateEngine extends AbstractTemplateEngine implements Temp
     * @see code2code.core.templateengine.TemplateEngine#processString(code2code.core.generator.Generator, java.lang.String, java.util.Map)
     */
    @Override
-   public String processString(Generator generator, String templateContent, Map<String, String> context) throws Exception
+   public String processString(String templateContent, Map<String, Object> context) throws Exception
    {
       SimpleTemplateEngine engine = new SimpleTemplateEngine();
 

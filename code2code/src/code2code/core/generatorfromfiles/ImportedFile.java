@@ -8,7 +8,7 @@ import org.eclipse.core.runtime.IPath;
 
 import code2code.core.templateengine.TemplateEngine;
 import code2code.core.templateengine.TemplateEngineFactory;
-import code2code.utils.FileUtils;
+import code2code.core.utils.FileUtils;
 
 public class ImportedFile
 {

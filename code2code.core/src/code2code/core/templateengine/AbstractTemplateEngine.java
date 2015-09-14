@@ -1,14 +1,10 @@
 package code2code.core.templateengine;
 
+import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-
-import code2code.core.generator.Generator;
 
 /**
  * The base class for the templating engines
@@ -19,13 +15,14 @@ abstract class AbstractTemplateEngine implements TemplateEngine
     * @see code2code.core.templateengine.TemplateEngine#getKnownFile(org.eclipse.core.resources.IFolder, java.lang.String)
     */
    @Override
-   public IFile getKnownFile(IFolder folder, String fileName)
+   public File getKnownFile(File folder, String fileName)
    {
       for (String extension : getKnownExtensions())
       {
-         if (folder.getFile(fileName + "." + extension).exists())
+         File file = new File(folder, fileName + "." + extension);
+         if (file.exists())
          {
-            return folder.getFile(fileName + "." + extension);
+            return file;
          }
       }
 
@@ -59,20 +56,20 @@ abstract class AbstractTemplateEngine implements TemplateEngine
    }
 
    /**
-    * @see code2code.core.templateengine.TemplateEngine#processMap(code2code.core.generator.Generator, java.util.Map, java.util.Map)
+    * @see code2code.core.templateengine.TemplateEngine#processMap(code2code.core.generator.OldGenerator, java.util.Map, java.util.Map)
     */
    @Override
-   public Map<String, String> processMap(Generator generator, Map<String, String> params, Map<String, String> initialContext) throws Exception
+   public Map<String, String> processMap(Map<String, String> p_params, Map<String, Object> initialContext) throws Exception
    {
       Map<String, String> translatedMap = new LinkedHashMap<String, String>();
 
-      Map<String, String> currentContext = new LinkedHashMap<String, String>();
+      Map<String, Object> currentContext = new LinkedHashMap<String, Object>();
       currentContext.putAll(initialContext);
 
-      for (Entry<String, String> entry : params.entrySet())
+      for (Entry<String, String> entry : p_params.entrySet())
       {
          String param = entry.getKey();
-         String processedValue = processString(generator, entry.getValue(), currentContext);
+         String processedValue = processString(entry.getValue(), currentContext);
 
          translatedMap.put(param, processedValue);
          currentContext.put(param, processedValue);
