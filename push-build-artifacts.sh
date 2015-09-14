@@ -48,7 +48,7 @@ push_artifacts() {
   mv "$all_targets" .
 
   echo "Commiting and pushing new build artifacts"
-  git add -f .
+  git add .
   git commit -m "Travis build $TRAVIS_BUILD_NUMBER pushed to $GH_BRANCH"
   git push -fq origin ${GH_BRANCH} > /dev/null
 
