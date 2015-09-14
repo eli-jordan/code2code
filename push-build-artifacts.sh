@@ -21,7 +21,7 @@ main() {
 push_artifacts() {
   echo "Starting to push build artifacts"
     
-  local all_targets="$HOME/artifacts_build_${TRAVIS_BUILD_NUMBER}_on_$(date -I)"
+  local all_targets="$HOME/artifacts_build_${TRAVIS_BUILD_NUMBER}_of_${TRAVIS_BRANCH}_branch_on_$(date -I)"
   mkdir "$all_targets"
 
   find . -type d -name 'target' | while read targetDir
