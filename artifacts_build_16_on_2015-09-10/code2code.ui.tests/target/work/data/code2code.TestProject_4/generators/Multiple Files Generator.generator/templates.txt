@@ -1,2 +1,0 @@
-templates/File1.txt=File1.txt
-	  	templates/File2.txt=File2.txt

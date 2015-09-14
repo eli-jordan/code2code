@@ -1,1 +1,0 @@
-templates/UsingFreemarkerOnThemplatesConfigFile.txt.ftl=<#assign processedDestination="Using Freemarker on the templates config file.txt"/>${processedDestination}

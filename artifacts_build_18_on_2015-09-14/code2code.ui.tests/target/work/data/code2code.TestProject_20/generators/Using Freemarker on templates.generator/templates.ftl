@@ -1,1 +1,0 @@
-templates/UsingFreemarkerOnTemplates.txt.ftl=Using Freemarker on templates.txt

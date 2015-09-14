@@ -1,2 +1,0 @@
-commonParam=Nested value
-		nestedParam

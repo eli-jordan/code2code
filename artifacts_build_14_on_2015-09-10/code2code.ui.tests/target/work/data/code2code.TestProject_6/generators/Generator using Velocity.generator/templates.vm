@@ -1,1 +1,0 @@
-templates/VelocityTemplate.txt.vm=$engine.toLowerCase() template.txt
