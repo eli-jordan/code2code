@@ -1,4 +1,4 @@
-package code2code.utils;
+package code2code.ui.utils;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;

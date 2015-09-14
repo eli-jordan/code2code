@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
 import code2code.core.generator.Template;
-import code2code.utils.EclipseGuiUtils;
+import code2code.ui.utils.EclipseGuiUtils;
 
 /**
  * The UI for the customisation page.

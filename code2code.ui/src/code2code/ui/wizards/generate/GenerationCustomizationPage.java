@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import code2code.core.generator.OldGenerator;
 import code2code.core.generator.Template;
-import code2code.utils.EclipseGuiUtils;
+import code2code.ui.utils.EclipseGuiUtils;
 
 /**
  * The wizard page that represents that allows the templates to use from the generator to be customized, additionally

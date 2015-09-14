@@ -1,6 +1,6 @@
 package pageobjects;
 
-import code2code.utils.Console;
+import code2code.ui.utils.Console;
 
 public class ConsoleView
 {

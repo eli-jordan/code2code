@@ -1,4 +1,4 @@
-package code2code.utils;
+package code2code.ui.utils;
 
 import java.io.IOException;
 

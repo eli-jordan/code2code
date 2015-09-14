@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import code2code.core.generatorfromfiles.ImportedFile;
-import code2code.utils.EclipseGuiUtils;
+import code2code.ui.utils.EclipseGuiUtils;
 
 public class ImportedFilesConfigurationComposite extends Composite
 {

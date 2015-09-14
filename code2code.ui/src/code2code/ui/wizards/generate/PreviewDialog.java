@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import code2code.core.generator.Template;
 import code2code.core.utils.FileUtils;
-import code2code.utils.EclipseGuiUtils;
+import code2code.ui.utils.EclipseGuiUtils;
 
 /**
  * Displays the instantiated template before writing the files to disk

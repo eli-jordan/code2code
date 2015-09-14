@@ -13,7 +13,7 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
 import code2code.core.generatorfromfiles.ImportedFile;
-import code2code.utils.EclipseGuiUtils;
+import code2code.ui.utils.EclipseGuiUtils;
 
 public class GeneratorFromFilesWizard extends Wizard implements INewWizard
 {
