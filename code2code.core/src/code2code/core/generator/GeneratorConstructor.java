@@ -82,7 +82,9 @@ public class GeneratorConstructor
             String rawLocation = entry.getValue();
             
             TemplateEngine engine = m_engines.forFileName(templateName);
-            templates.add(new Template(engine, m_root, rawLocation, templateName));
+            TemplateLocator locator = new TemplateLocator(p_generatorRoot, templateName);
+            
+            templates.add(new Template(engine, locator, templateName, rawLocation));
 
             //TODO: Eli: Do I want to keep the nested generators? Not sure what the use case is
             //         if (templateName.endsWith(".generator"))
@@ -172,13 +174,16 @@ public class GeneratorConstructor
     */
    private Parameters getGlobalParameters()
    {
-      File rootGenerator = new File(m_root, "generators");
-      if(rootGenerator.exists())
+      if(m_root != null)
       {
-         File rootParams = m_engines.findKnownTemplate(m_root, "params");
-         if(rootParams != null)
+         File rootGenerator = new File(m_root, "generators");
+         if(rootGenerator.exists())
          {
-            return asParameters(loadPropertiesFile(rootParams));
+            File rootParams = m_engines.findKnownTemplate(rootGenerator, "params");
+            if(rootParams != null)
+            {
+               return asParameters(loadPropertiesFile(rootParams));
+            }
          }
       }
       

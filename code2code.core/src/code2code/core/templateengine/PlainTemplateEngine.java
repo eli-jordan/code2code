@@ -2,6 +2,9 @@ package code2code.core.templateengine;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -57,5 +60,31 @@ public class PlainTemplateEngine extends AbstractTemplateEngine implements Templ
    public String escape(String contents)
    {
       return contents;
+   }
+
+   @Override
+   public String toString()
+   {
+      return "PlainTemplateEngine";
+   }
+
+   @Override
+   public void process(String p_name, Reader p_reader, Writer p_writer, Map<String, Object> p_context) throws Exception
+   {
+      copy(p_reader, p_writer);
+   }
+   
+   private static void copy(Reader input, Writer output) throws IOException
+   {
+      char[] buf = new char[8192];
+      while (true)
+      {
+         int length = input.read(buf);
+         if (length < 0)
+         {
+            break;
+         }
+         output.write(buf, 0, length);
+      }
    }
 }

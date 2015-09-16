@@ -50,5 +50,10 @@ public class Parameters implements Iterable<Parameter>
    {
       return m_parameters.iterator();
    }
-}
 
+   @Override
+   public String toString()
+   {
+      return "Parameters [m_parameters=" + m_parameters + "]";
+   }
+}

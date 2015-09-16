@@ -1,7 +1,9 @@
 package code2code.core.templateengine;
 
 import java.io.File;
+import java.io.Reader;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +39,15 @@ public class VelocityTemplateEngine extends AbstractTemplateEngine implements Te
       velocityEngine.mergeTemplate(p_templateName, "UTF-8", velocityContext, writer);
 
       return writer.toString();
+   }
+   
+   @Override
+   public void process(String p_name, Reader p_reader, Writer p_writer, Map<String, Object> p_context) throws Exception
+   {
+      VelocityEngine velocityEngine = createVelocityEngine(null);
+      VelocityContext velocityContext = createVelocityContext(p_context);
+      
+      velocityEngine.evaluate(velocityContext, p_writer, p_name, p_reader);
    }
 
    /**
@@ -113,5 +124,11 @@ public class VelocityTemplateEngine extends AbstractTemplateEngine implements Te
          velocityContext.put(key, context.get(key));
       }
       return velocityContext;
+   }
+   
+   @Override
+   public String toString()
+   {
+      return "VelocityTemplateEngine";
    }
 }

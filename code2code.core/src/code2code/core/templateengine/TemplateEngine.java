@@ -1,6 +1,8 @@
 package code2code.core.templateengine;
 
 import java.io.File;
+import java.io.Reader;
+import java.io.Writer;
 import java.util.Map;
 
 /**
@@ -52,6 +54,8 @@ public interface TemplateEngine
     * @throws Exception
     */
    String processString(String p_content, Map<String, Object> p_context) throws Exception;
+   
+   void process(String p_name, Reader p_reader, Writer p_writer, Map<String, Object> p_context) throws Exception;
 
    /**
     * Apply the templating engine to the specified template file

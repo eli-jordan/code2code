@@ -7,7 +7,7 @@ package code2code.core.generator;
 /**
  * Represents a template parameter
  */
-class Parameter
+public class Parameter
 {
    /** the name of the parameter */
    private final String m_name;
@@ -79,5 +79,11 @@ class Parameter
       else if (!m_name.equals(other.m_name))
          return false;
       return true;
+   }
+
+   @Override
+   public String toString()
+   {
+      return "Parameter [m_name=" + m_name + ", m_defaultValue=" + m_defaultValue + ", m_value=" + m_value + "]";
    }
 }

@@ -2,7 +2,9 @@ package code2code.core.templateengine;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.Reader;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +45,15 @@ public class GroovyTemplateEngine extends AbstractTemplateEngine implements Temp
 
       return stringWriter.toString();
    }
+   
+   @Override
+   public void process(String p_name, Reader p_reader, Writer p_writer, Map<String, Object> p_context) throws Exception
+   {
+      SimpleTemplateEngine engine = new SimpleTemplateEngine();
+      Template template = engine.createTemplate(p_reader);
+      Writable writable = template.make(p_context);
+      writable.writeTo(p_writer);
+   }
 
    /**
     * @see code2code.core.templateengine.TemplateEngine#processString(code2code.core.generator.Generator, java.lang.String, java.util.Map)
@@ -74,5 +85,11 @@ public class GroovyTemplateEngine extends AbstractTemplateEngine implements Temp
          .replaceAll("(?<=<)%|%(?=>)", "<%=\"%\"%>");
 
       return escaped;
+   }
+
+   @Override
+   public String toString()
+   {
+      return "GroovyTemplateEngine";
    }
 }

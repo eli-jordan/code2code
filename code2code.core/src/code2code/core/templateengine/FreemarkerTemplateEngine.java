@@ -1,6 +1,7 @@
 package code2code.core.templateengine;
 
 import java.io.File;
+import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Arrays;
@@ -70,7 +71,6 @@ public class FreemarkerTemplateEngine extends AbstractTemplateEngine implements 
    {
       Configuration configuration = new Configuration();
       configuration.setDirectoryForTemplateLoading(p_generatorRoot);
-
       Template template = configuration.getTemplate(p_templateFile);
 
       Writer out = new StringWriter();
@@ -81,10 +81,18 @@ public class FreemarkerTemplateEngine extends AbstractTemplateEngine implements 
       template.process(root, out, new DefaultObjectWrapper());
       return out.toString();
    }
+   
+   @Override
+   public void process(String p_name, Reader p_reader, Writer p_writer, Map<String, Object> p_context) throws Exception
+   {
+      Template template = new Template(p_name, p_reader, new Configuration());
+      template.process(p_context, p_writer);
+   }
 
    /**
     * @see code2code.core.templateengine.TemplateEngine#escape(java.lang.String)
     */
+   @Override
    public String escape(String contents)
    {
       String escaped = contents
@@ -93,5 +101,11 @@ public class FreemarkerTemplateEngine extends AbstractTemplateEngine implements 
          .replace("<#", "${r'<#'}")
          .replace("</#", "${r'</#'}");
       return escaped;
+   }
+   
+   @Override
+   public String toString()
+   {
+      return "FreemarkerTemplateEngine";
    }
 }

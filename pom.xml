@@ -10,11 +10,12 @@
 	<packaging>pom</packaging>
 
 	<modules>
-	   <module>./code2code.core</module>
-	   <module>./code2code.core.tests</module>
+		<module>./code2code.core</module>
+		<module>./code2code.core.tests</module>
 		<module>./code2code.ui</module>
 		<module>./code2code.ui.tests</module>
 		<module>./code2code.feature</module>
+		<module>./code2code.core.unittest</module>
 	</modules>
 
 	<!-- tycho requires maven >= 3.0 -->
@@ -39,11 +40,21 @@
 			<url>http://download.eclipse.org/technology/swtbot/releases/latest/</url>
 		</repository>
 		<repository>
-        <id>orbit</id>
-        <layout>p2</layout>
-        <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150821153341/repository/</url>
-     </repository>
+			<id>orbit</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150821153341/repository/</url>
+		</repository>
+		<repository>
+			<id>central</id>
+			<name>Maven Repository Switchboard</name>
+			<layout>default</layout>
+			<url>http://repo1.maven.org/maven2</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
+	
 	<build>
 		<plugins>
 			<plugin>
@@ -58,7 +69,7 @@
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho-version}</version>
 				<configuration>
-				   <pomDependencies>consider</pomDependencies>
+					<pomDependencies>consider</pomDependencies>
 					<!-- configure the p2 target environments for multi-platform build -->
 					<environments>
 						<environment>

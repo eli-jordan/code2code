@@ -1,0 +1,1 @@
+collection_description=A collection of templates used for testing

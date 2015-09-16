@@ -1,6 +1,8 @@
 package code2code.core.generator;
 
 import java.io.File;
+import java.io.Reader;
+import java.io.StringWriter;
 import java.util.Map;
 
 import code2code.core.templateengine.TemplateEngine;
@@ -19,23 +21,35 @@ public class Template
    private final String m_rawLocation;
    
    /** the root directory for the generator */
-   private final File m_generatorRoot;
+   private final TemplateLocator m_locator;
 
    /**
     * TODO: Eli: Make a builder for this class
     * 
-    * Constructor
-    * @param p_engine
-    * @param p_generatorRoot
+    * @param p_engine 
+    * @param p_locator 
     * @param p_rawLocation 
-    * @param p_name
     */
-   public Template(TemplateEngine p_engine, File p_generatorRoot, String p_rawLocation, String p_name)
+   public Template(TemplateEngine p_engine, TemplateLocator p_locator, String p_name, String p_rawLocation)
    {
       m_engine = p_engine;
-      m_generatorRoot = p_generatorRoot;
-      m_rawLocation = p_rawLocation;
+      m_locator = p_locator;
       m_name = p_name;
+      m_rawLocation = p_rawLocation;
+   }
+   
+   String getRawLocation()
+   {
+      return m_rawLocation;
+   }
+   
+   /**
+    * @return
+    *   the template engine
+    */
+   TemplateEngine engine()
+   {
+      return m_engine;
    }
 
    /**
@@ -65,7 +79,12 @@ public class Template
       //         return new ByteArrayInputStream(m_cachedOutput.getBytes());
       //      }
       
-      return m_engine.processTemplate(m_generatorRoot, getTemplateName(), p_context);
+      Reader contents = m_locator.locate();
+      
+      StringWriter writer = new StringWriter();
+      m_engine.process(getTemplateName(), contents, writer, p_context);
+      
+      return writer.toString();
    }
 
    /**
@@ -127,4 +146,10 @@ public class Template
 //   {
 //      m_selectedLocation = userChoosenDestination;
 //   }
+
+   @Override
+   public String toString()
+   {
+      return "Template [m_engine=" + m_engine + ", m_name=" + m_name + ", m_rawLocation=" + m_rawLocation + "]";
+   }
 }
