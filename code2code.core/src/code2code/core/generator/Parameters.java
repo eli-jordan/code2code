@@ -10,6 +10,9 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Represents the parameters to a generator
+ */
 public class Parameters implements Iterable<Parameter>
 {
    /** the set of raw parameters parameters */

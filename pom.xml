@@ -38,6 +38,11 @@
 			<layout>p2</layout>
 			<url>http://download.eclipse.org/technology/swtbot/releases/latest/</url>
 		</repository>
+		<repository>
+        <id>orbit</id>
+        <layout>p2</layout>
+        <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150821153341/repository/</url>
+     </repository>
 	</repositories>
 	<build>
 		<plugins>

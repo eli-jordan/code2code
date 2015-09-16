@@ -16,8 +16,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-import code2code.core.generator.OldGenerator;
-import code2code.core.generator.GeneratorFactory;
+import code2code.core.generator.Generator;
 
 class GeneratorSelectionPage extends WizardPage
 {
@@ -25,7 +24,7 @@ class GeneratorSelectionPage extends WizardPage
    private List<Button> m_generatorRadioButtons = new ArrayList<Button>();
 
    /** the selected generator */
-   private OldGenerator m_selectedGenerator;
+   private Generator m_selectedGenerator;
 
    /** the project used to create the list of generators */
    private final IProject m_project;
@@ -68,7 +67,7 @@ class GeneratorSelectionPage extends WizardPage
       layout.numColumns = 1;
       container.setLayout(layout);
 
-      Set<OldGenerator> generators = getGenerators();
+      Set<Generator> generators = getGenerators();
 
       if (generators.isEmpty())
       {
@@ -76,7 +75,7 @@ class GeneratorSelectionPage extends WizardPage
          label.setText("No generators found.");
       }
 
-      for (OldGenerator generator : generators)
+      for (Generator generator : generators)
       {
          addRadioButton(container, generator);
       }
@@ -86,7 +85,7 @@ class GeneratorSelectionPage extends WizardPage
       setControl(scrolledComposite);
    }
    
-   private void addRadioButton(Composite p_container, OldGenerator p_generator)
+   private void addRadioButton(Composite p_container, Generator p_generator)
    {
       Button button = new Button(p_container, SWT.RADIO);
       button.setText(p_generator.getName());
@@ -97,7 +96,7 @@ class GeneratorSelectionPage extends WizardPage
          @Override
          public void widgetSelected(SelectionEvent e)
          {
-            m_selectedGenerator = (OldGenerator) ((Button) e.getSource()).getData("generator");
+            m_selectedGenerator = (Generator) ((Button) e.getSource()).getData("generator");
             setPageComplete(true);
          }
       });
@@ -105,17 +104,17 @@ class GeneratorSelectionPage extends WizardPage
       m_generatorRadioButtons.add(button);
    }
    
-   private Set<OldGenerator> getGenerators()
+   private Set<Generator> getGenerators()
    {
       try
       {
-         Set<OldGenerator> generators = GeneratorFactory.fromProject(m_project);
+         Set<Generator> generators = GeneratorFactory.fromProject(m_project);
          
-         // define the preset parameters
-         for(OldGenerator generator : generators)
-         {
-            generator.addPresetParameters(m_presetParameters);
-         }
+//         // define the preset parameters
+//         for(Generator generator : generators)
+//         {
+//            generator.addPresetParameters(m_presetParameters);
+//         }
          return generators;
       }
       catch (Exception e)
@@ -125,7 +124,7 @@ class GeneratorSelectionPage extends WizardPage
    }
    
 
-   public OldGenerator getSelectedGenerator()
+   public Generator getSelectedGenerator()
    {
       return m_selectedGenerator;
    }

@@ -498,6 +498,7 @@ public class Properties extends LinkedHashMap<Object, Object>
     * Converts encoded &#92;uxxxx to unicode chars
     * and changes special saved chars to their original forms
     */
+   @SuppressWarnings("cast")
    private String loadConvert(char[] in, int off, int len, char[] convtBuf)
    {
       if (convtBuf.length < len)

@@ -10,6 +10,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Represents a collection of templates
+ */
 public class Generator
 {
    /** the generator name */
@@ -19,6 +22,7 @@ public class Generator
    private final String m_description;
    
    /** the directory that represents the generator */
+   @SuppressWarnings("unused")
    private final File m_generatorRoot;
 
    /** the templates that the generator houses */
