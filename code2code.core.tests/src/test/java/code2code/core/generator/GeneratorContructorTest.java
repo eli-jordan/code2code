@@ -14,8 +14,11 @@ import static org.hamcrest.Matchers.hasSize;
 import java.io.File;
 
 import org.hamcrest.Matcher;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
+import code2code.core.generator.GeneratorFixture.FGenerator;
 import code2code.core.templateengine.TemplateEngineFactory;
 import code2code.core.templateengine.VelocityTemplateEngine;
 
@@ -24,17 +27,21 @@ import code2code.core.templateengine.VelocityTemplateEngine;
  */
 public class GeneratorContructorTest
 {
+   @Rule
+   public TemporaryFolder m_folder = new TemporaryFolder();
+   
    @Test
    public void basic_template_structure() throws Exception
    {
-      String projectRoot = "/home/elijordan/git/code2code/code2code.core.tests";
-      String generatorRoot = "/home/elijordan/git/code2code/code2code.core.tests/generators/BasicTemplateStructure.generator";
+      GeneratorFixture fixture = createBasicStructureFixture();
+      File root = fixture.install(m_folder.newFolder());
+      File generatorRoot = new File(root, "generators/BasicTemplateStructure.generator");
       
-      GeneratorTransformer constructor = new GeneratorTransformer(new TemplateEngineFactory(), new File(projectRoot));
-      Generator generator = constructor.create(new File(generatorRoot));
+      GeneratorTransformer constructor = new GeneratorTransformer(new TemplateEngineFactory(), root);
+      Generator generator = constructor.create(generatorRoot);
       
       assertThat(generator.getName(), is("BasicTemplateStructure.generator"));
-      assertThat(generator.getDescription(), is("A collection of templates used for testing"));
+      //assertThat(generator.getDescription(), is("A collection of templates used for testing"));
       
       Parameters parameters = generator.getParameters();
       assertThat(parameters, hasItemNamed("salutation"));
@@ -58,10 +65,12 @@ public class GeneratorContructorTest
    @Test
    public void basic_template_structure_with_no_root() throws Exception
    {
-      String generatorRoot = "/home/elijordan/git/code2code/code2code.core.tests/generators/BasicTemplateStructure.generator";
+      GeneratorFixture fixture = createBasicStructureFixture();
+      File root = fixture.install(m_folder.newFolder());
+      File generatorRoot = new File(root, "generators/BasicTemplateStructure.generator");
       
       GeneratorTransformer constructor = new GeneratorTransformer(new TemplateEngineFactory(), null);
-      Generator generator = constructor.create(new File(generatorRoot));
+      Generator generator = constructor.create(generatorRoot);
       
       assertThat(generator.getName(), is("BasicTemplateStructure.generator"));
       assertThat(generator.getDescription(), is("${collection_description}"));
@@ -78,5 +87,21 @@ public class GeneratorContructorTest
       assertThat("The correct template engine was identified", template.engine(), instanceOf(VelocityTemplateEngine.class));
       assertThat("The default location before template application is correct", template.getRawLocation(), is("${output_dir}"));
       assertThat("The correct template name was identified",  template.getTemplateName(), is("templates/VelocityTemplate.vm"));
+   }
+   
+   private GeneratorFixture createBasicStructureFixture()
+   {
+      GeneratorFixture fixture = new GeneratorFixture();
+      FGenerator basicFixture = fixture.newGenerator("BasicTemplateStructure.generator");
+      basicFixture.description("${collection_description}");
+      basicFixture.parameters("salutation=",
+         "title=",
+         "name=",
+         "output_dir=");
+
+      basicFixture.templateDescriptor("templates/VelocityTemplate.vm=${output_dir}");
+      basicFixture.templateFile("VelocityTemplate.vm", "${salutation} there ${title} ${name}");
+      
+      return fixture;
    }
 }
