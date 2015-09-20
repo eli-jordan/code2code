@@ -15,7 +15,6 @@
 		<module>./code2code.ui</module>
 		<module>./code2code.ui.tests</module>
 		<module>./code2code.feature</module>
-		<module>./code2code.core.unittest</module>
 	</modules>
 
 	<!-- tycho requires maven >= 3.0 -->
