@@ -1,7 +1,5 @@
 package code2code.ui.wizards.generate;
 
-import java.util.List;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ModifyEvent;
@@ -15,6 +13,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
+import code2code.core.generator.Generator;
 import code2code.core.generator.Template;
 import code2code.ui.utils.EclipseGuiUtils;
 
@@ -25,6 +24,8 @@ import code2code.ui.utils.EclipseGuiUtils;
  */
 public class GenerationCustomizationComposite extends Composite
 {
+   private final Generator m_generator;
+   
    /**
     * Constructor
     * @param p_templates
@@ -35,9 +36,10 @@ public class GenerationCustomizationComposite extends Composite
     *   the style
     * @throws Exception
     */
-   public GenerationCustomizationComposite(final List<Template> p_templates, Composite p_parent, int p_style) throws Exception
+   public GenerationCustomizationComposite(Generator p_generator, Composite p_parent, int p_style) throws Exception
    {
       super(p_parent, p_style);
+      m_generator = p_generator;
 
       this.setLayout(new FillLayout(SWT.VERTICAL | SWT.HORIZONTAL));
 
@@ -52,7 +54,7 @@ public class GenerationCustomizationComposite extends Composite
       layout.numColumns = 3;
       container.setLayout(layout);
 
-      for (Template template : p_templates)
+      for (Template template : p_generator.getTemplates())
       {
          addTemplateUiRow(container, template);
       }
@@ -88,7 +90,7 @@ public class GenerationCustomizationComposite extends Composite
          {
             try
             {
-               p_template.setSelectedToGenerate(((Button) event.widget).getSelection());
+               p_template.setSelected(((Button) event.widget).getSelection());
             }
             catch (Exception e)
             {
@@ -112,13 +114,13 @@ public class GenerationCustomizationComposite extends Composite
    private void addFileLocationTextBox(Composite p_container, final Template p_template) throws Exception
    {
       Text text = new Text(p_container, SWT.BORDER);
-      text.setText(p_template.getOutputLocation());
+      text.setText(p_template.getOutputLocation(m_generator.getParameters().asMap()));
 
       text.addModifyListener(new ModifyListener()
       {
          public void modifyText(ModifyEvent e)
          {
-            p_template.selectLocation(((Text) e.widget).getText());
+            p_template.overrideLocation(((Text) e.widget).getText());
          }
       });
       text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));

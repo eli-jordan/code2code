@@ -22,7 +22,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-import code2code.core.generator.GeneratorFactory;
 import code2code.core.generatorfromfiles.ImportedFile;
 import code2code.core.generatorfromfiles.NewGeneratorConfig;
 import code2code.ui.utils.EclipseGuiUtils;
@@ -46,11 +45,11 @@ public class GeneratorConfigurationPage extends WizardPage
       newGeneratorConfig.setProject(((IResource) selection.getFirstElement()).getProject());
       newGeneratorConfig.setGeneratorName("NewGenerator");
 
-      if (GeneratorFactory.exists(newGeneratorConfig.getProject(), newGeneratorConfig.getGeneratorName()))
-      {
-         setErrorMessage("Generator already exists with this name");
-         setPageComplete(false);
-      }
+//      if (GeneratorFactory.exists(newGeneratorConfig.getProject(), newGeneratorConfig.getGeneratorName()))
+//      {
+//         setErrorMessage("Generator already exists with this name");
+//         setPageComplete(false);
+//      }
 
    }
 
@@ -149,11 +148,11 @@ public class GeneratorConfigurationPage extends WizardPage
                setErrorMessage("Generator name must be entered.");
                setPageComplete(false);
             }
-            else if (GeneratorFactory.exists(newGeneratorConfig.getProject(), newGeneratorConfig.getGeneratorName()))
-            {
-               setErrorMessage("A Generator already exists with this name");
-               setPageComplete(false);
-            }
+//            else if (GeneratorFactory.exists(newGeneratorConfig.getProject(), newGeneratorConfig.getGeneratorName()))
+//            {
+//               setErrorMessage("A Generator already exists with this name");
+//               setPageComplete(false);
+//            }
             else
             {
                setErrorMessage(null);

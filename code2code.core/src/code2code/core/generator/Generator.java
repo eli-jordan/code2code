@@ -91,6 +91,11 @@ public class Generator
    {
       for(Template template : m_templates)
       {
+         if(!template.isSelected())
+         {
+            continue;
+         }
+         
          File location = new File(template.getOutputLocation(p_context));
          
          String contents = template.instantiate(p_context);
@@ -105,5 +110,15 @@ public class Generator
             output.close();
          }
       }
+   }
+   
+   /**
+    * TODO: Eli: Add a view model in the UI, and don't track the selected values in the Parameters object
+    *            then remove this method
+    * @throws Exception
+    */
+   public void instantiate() throws Exception
+   {
+      instantiate(m_parameters.asMap());
    }
 }

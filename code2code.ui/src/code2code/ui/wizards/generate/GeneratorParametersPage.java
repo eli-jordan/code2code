@@ -1,11 +1,5 @@
 package code2code.ui.wizards.generate;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -17,7 +11,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-import code2code.core.generator.OldGenerator;
+import code2code.core.generator.Generator;
+import code2code.core.generator.Parameter;
+import code2code.core.generator.Parameters;
 import code2code.ui.utils.EclipseGuiUtils;
 
 /**
@@ -31,14 +27,11 @@ public class GeneratorParametersPage extends WizardPage
    /** the container for the parameters input */
    private Composite m_paramsContainer;
 
-   /** the UI elements that allow the user to specify parameter values */
-   private List<Text> m_parameterInput;
-
    /** the wizard page that allows the generator to be selected */
    private final GeneratorSelectionPage m_generatorSelectionPage;
 
    /** the generator that was select on the GeneratorSelectionPage */
-   private OldGenerator m_selectedGenerator;
+   private Generator m_selectedGenerator;
 
    /**
     * Constructor
@@ -122,21 +115,20 @@ public class GeneratorParametersPage extends WizardPage
     */
    private void createPage() throws Exception
    {
-      m_parameterInput = new ArrayList<Text>();
-
       m_paramsContainer = new Composite(m_container, SWT.NULL);
 
       GridLayout layout = new GridLayout();
       layout.numColumns = 2;
       m_paramsContainer.setLayout(layout);
 
-      Map<String, String> params = m_generatorSelectionPage.getSelectedGenerator().getRequiredParameters();
+      Generator selected = m_generatorSelectionPage.getSelectedGenerator();
+      Parameters parameters = selected.getParameters();
 
-      setDescription(m_generatorSelectionPage.getSelectedGenerator().getDescription());
+      setDescription(selected.getDescription());
 
-      if (params.size() > 0)
+      if (!parameters.isEmpty())
       {
-         addParametersInputFields(params);
+         addParametersInputFields(parameters);
       }
       else
       {
@@ -157,20 +149,18 @@ public class GeneratorParametersPage extends WizardPage
     * Adds the UI elements for all the parameters to the generator
     * @param params
     */
-   private void addParametersInputFields(Map<String, String> params)
+   private void addParametersInputFields(Parameters p_parameters)
    {
-      for (Entry<String, String> entry : params.entrySet())
+      for (Parameter parameter : p_parameters)
       {
-         String paramName = entry.getKey();
-
          Label label = new Label(m_paramsContainer, SWT.NULL);
-         label.setText(paramName);
+         label.setText(parameter.name());
 
          GridData data = new GridData();
          data.verticalAlignment = SWT.TOP;
          label.setLayoutData(data);
 
-         addParameterInput(entry.getKey(), entry.getValue());
+         addParameterInput(parameter);
       }
    }
    
@@ -179,30 +169,18 @@ public class GeneratorParametersPage extends WizardPage
     * @param p_key
     * @param p_defaultValue
     */
-   private void addParameterInput(String p_key, String p_defaultValue)
+   private void addParameterInput(final Parameter p_parameter)
    {
-      Text text = new Text(m_paramsContainer, SWT.BORDER | SWT.MULTI);
-
-      text.setData("paramName", p_key);
-      text.setText(p_defaultValue);
+      final Text text = new Text(m_paramsContainer, SWT.BORDER | SWT.MULTI);
+      text.setText(p_parameter.value().toString());
 
       text.addModifyListener(new ModifyListener()
       {
          public void modifyText(ModifyEvent e)
          {
-            try
-            {
-               getSelectedGenerator().setUserConfiguredParams(createParamsMap());
-            }
-            catch (Exception e1)
-            {
-               EclipseGuiUtils.showErrorDialog(m_container.getShell(), e1);
-               throw new RuntimeException(e1);
-            }
+            p_parameter.value(text.getText());
          }
       });
-
-      m_parameterInput.add(text);
 
       GridData data2 = new GridData();
       data2.widthHint = 600;
@@ -210,23 +188,11 @@ public class GeneratorParametersPage extends WizardPage
       text.setLayoutData(data2);
    }
 
-   private Map<String, String> createParamsMap()
-   {
-      Map<String, String> paramsMap = new LinkedHashMap<String, String>();
-
-      for (Text text : m_parameterInput)
-      {
-         paramsMap.put((String) text.getData("paramName"), text.getText());
-      }
-
-      return paramsMap;
-   }
-
    /**
     * @return
     *   the selected generator
     */
-   public OldGenerator getSelectedGenerator()
+   public Generator getSelectedGenerator()
    {
       return m_generatorSelectionPage.getSelectedGenerator();
    }

@@ -1,6 +1,5 @@
 package code2code.core.generator;
 
-import java.io.File;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.util.Map;
@@ -18,24 +17,45 @@ public class Template
    /** the name of this template (i.e. the filename of the template file e.g. my_template.groovy) */
    private final String m_name;
    
+   /** the raw output location */
    private final String m_rawLocation;
    
    /** the root directory for the generator */
    private final TemplateLocator m_locator;
+   
+   private boolean m_selected = true;
+   
+   private String m_locationOverride;
 
    /**
-    * TODO: Eli: Make a builder for this class
-    * 
-    * @param p_engine 
-    * @param p_locator 
-    * @param p_rawLocation 
+    * Constructor
+    * @param p_builer
     */
-   public Template(TemplateEngine p_engine, TemplateLocator p_locator, String p_name, String p_rawLocation)
+   private Template(Builder p_builer)
    {
-      m_engine = p_engine;
-      m_locator = p_locator;
-      m_name = p_name;
-      m_rawLocation = p_rawLocation;
+      m_engine = p_builer.m_engine;
+      m_locator = p_builer.m_locator;
+      m_name = p_builer.m_name;
+      m_rawLocation = p_builer.m_rawLocation;
+   }
+   
+   /**
+    * @return
+    *   a new template builder
+    */
+   public static Builder builder()
+   {
+      return new Builder();
+   }
+   
+   public void setSelected(boolean p_selected)
+   {
+      m_selected = p_selected;
+   }
+   
+   public boolean isSelected()
+   {
+      return m_selected;
    }
    
    String getRawLocation()
@@ -97,56 +117,69 @@ public class Template
     */
    public String getOutputLocation(Map<String, Object> p_context) throws Exception
    {
-      return m_engine.processString(m_rawLocation, p_context);
-      
-//      if (m_selectedLocation != null)
-//      {
-//         return m_selectedLocation;
-//      }
-//      else
-//      {
-//         TemplateEngine engine = m_templatesConfig.getTemplateEngine();
-//         Generator generator = m_templatesConfig.getGenerator();
-//         return engine.processString(generator, m_initialLocation, generator.getInstantiationContext());
-//      }
+      if(m_locationOverride != null)
+      {
+         return m_locationOverride;
+      }
+      else
+      {
+         return m_engine.processString(m_rawLocation, p_context);
+      }
    }
-//
-//   /**
-//    * @return
-//    *   true if this template should be generated, false otherwise
-//    */
-//   public boolean isSelectedToGenerate()
-//   {
-//      return m_shouldGenerate;
-//   }
-//
-//   /**
-//    * Set whether this template should be generated
-//    * @param selectedToGenerate
-//    */
-//   public void setSelectedToGenerate(boolean selectedToGenerate)
-//   {
-//      m_shouldGenerate = selectedToGenerate;
-//   }
-//
-//   /**
-//    * Cache the output
-//    * @param p_cached
-//    */
-//   public void cacheOutput(String p_cached)
-//   {
-//      m_cachedOutput = p_cached;
-//   }
-//
-//   /**
-//    * Select the location
-//    * @param userChoosenDestination
-//    */
-//   public void selectLocation(String userChoosenDestination)
-//   {
-//      m_selectedLocation = userChoosenDestination;
-//   }
+   
+   /**
+    * Override the default output location
+    * @param p_location
+    */
+   public void overrideLocation(String p_location)
+   {
+      m_locationOverride = p_location;
+   }
 
+   /**
+    * A builder used to construct a template
+    */
+   @SuppressWarnings("javadoc")
+   public static class Builder
+   {
+      private TemplateEngine m_engine;
+      
+      private String m_name;
+      
+      private String m_rawLocation;
+      
+      private TemplateLocator m_locator;
+      
+      public Builder engine(TemplateEngine p_engine)
+      {
+         m_engine = p_engine;
+         return this;
+      }
+      
+      public Builder name(String p_name)
+      {
+         m_name = p_name;
+         return this;
+      }
+      
+      public Builder rawLocation(String p_location)
+      {
+         m_rawLocation = p_location;
+         return this;
+      }
+      
+      public Builder templateData(TemplateLocator p_locator)
+      {
+         m_locator = p_locator;
+         return this;
+      }
+      
+      public Template build()
+      {
+         return new Template(this);
+      }
+   }
+   
    @Override
    public String toString()
    {

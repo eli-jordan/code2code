@@ -45,7 +45,9 @@ public class ImportedFile
       destinationPath = generatorFolder.getProjectRelativePath().append(calculateGeneratorRelativeFinalDestinationPath());
 
       IFile file = newGeneratorConfig.getProject().getFile(destinationPath);
-      FileUtils.createParentFolders(file);
+      
+      
+      //FileUtils.createParentFolders(file);
 
       if (extension.equals("txt") || extension.equals("bin"))
       {
@@ -54,7 +56,7 @@ public class ImportedFile
       else
       {
          String contents = FileUtils.toString(((IFile) importedFile).getContents());
-         TemplateEngine templateEngine = TemplateEngineFactory.forExtension(extension);
+         TemplateEngine templateEngine = new TemplateEngineFactory().forExtension(extension);
          String escaped = templateEngine.escape(contents);
          file.create(new ByteArrayInputStream(escaped.getBytes()), false, null);
       }

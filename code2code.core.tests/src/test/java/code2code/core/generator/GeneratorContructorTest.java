@@ -30,7 +30,7 @@ public class GeneratorContructorTest
       String projectRoot = "/home/elijordan/git/code2code/code2code.core.tests";
       String generatorRoot = "/home/elijordan/git/code2code/code2code.core.tests/generators/BasicTemplateStructure.generator";
       
-      GeneratorConstructor constructor = new GeneratorConstructor(new TemplateEngineFactory(), new File(projectRoot));
+      GeneratorTransformer constructor = new GeneratorTransformer(new TemplateEngineFactory(), new File(projectRoot));
       Generator generator = constructor.create(new File(generatorRoot));
       
       assertThat(generator.getName(), is("BasicTemplateStructure.generator"));
@@ -60,7 +60,7 @@ public class GeneratorContructorTest
    {
       String generatorRoot = "/home/elijordan/git/code2code/code2code.core.tests/generators/BasicTemplateStructure.generator";
       
-      GeneratorConstructor constructor = new GeneratorConstructor(new TemplateEngineFactory(), null);
+      GeneratorTransformer constructor = new GeneratorTransformer(new TemplateEngineFactory(), null);
       Generator generator = constructor.create(new File(generatorRoot));
       
       assertThat(generator.getName(), is("BasicTemplateStructure.generator"));

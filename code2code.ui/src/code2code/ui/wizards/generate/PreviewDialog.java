@@ -22,6 +22,8 @@ class PreviewDialog extends TrayDialog
 
    /** the template */
    private final Template m_template;
+   
+   
 
    PreviewDialog(Shell shell, Template result)
    {
@@ -57,7 +59,9 @@ class PreviewDialog extends TrayDialog
 
       try
       {
-         m_previewText.setText(FileUtils.toString(m_template.instantiate()));
+         //m_previewText.setText(FileUtils.toString(m_template.instantiate()));
+         
+         m_previewText.setText("TODO: this is disabled for now");
       }
       catch (Exception e)
       {
@@ -74,7 +78,7 @@ class PreviewDialog extends TrayDialog
    @Override
    protected void okPressed()
    {
-      m_template.cacheOutput(m_previewText.getText());
+      //m_template.cacheOutput(m_previewText.getText());
 
       super.okPressed();
    }

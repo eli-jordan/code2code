@@ -30,7 +30,12 @@ public class TemplateTest
       String name = "simple_velocity_template";
       String contents = "${salutation} there ${name}. How are you ${time}?";
       
-      Template template = new Template(engine, locator(contents), name, rawLocation);
+      Template template = Template.builder()
+         .engine(engine)
+         .rawLocation(rawLocation)
+         .name(name)
+         .templateData(locator(contents))
+         .build();
       
       Map<String, Object> context = new HashMap<String, Object>();
       context.put("location_one", "baz");

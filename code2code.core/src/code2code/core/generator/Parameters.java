@@ -32,7 +32,7 @@ public class Parameters implements Iterable<Parameter>
       m_parameters.addAll(p_parameters.m_parameters);
    }
    
-   Map<String, Object> asMap()
+   public Map<String, Object> asMap()
    {
       Map<String, Object> context = new HashMap<String, Object>();
       for(Parameter parameter : m_parameters)
@@ -40,6 +40,15 @@ public class Parameters implements Iterable<Parameter>
          context.put(parameter.name(), parameter.value());
       }
       return context;
+   }
+   
+   /**
+    * @return
+    *   true if there are no parameters, otherwise false
+    */
+   public boolean isEmpty()
+   {
+      return m_parameters.isEmpty();
    }
 
    /**

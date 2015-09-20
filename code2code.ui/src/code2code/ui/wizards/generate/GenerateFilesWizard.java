@@ -66,40 +66,48 @@ public class GenerateFilesWizard extends Wizard implements INewWizard
       try
       {
          Console.write("Processing generator: " + selectedGenerator.getName());
+         
+         selectedGenerator.instantiate();
 
-         IProject project = selectedGenerator.getGeneratorFolder().getProject();
-
-         for (Template template : selectedGenerator.getTemplatesToInstantiate())
-         {
-            String destination = template.getOutputLocation();
-
-            if (destination.equals(""))
-            {
-               Console.write("Generating " + template.getTemplateName() + " to console:");
-               Console.write("-------------------------------------------------------------");
-               Console.write(FileUtils.toString(template.instantiate()));
-               Console.write("-------------------------------------------------------------");
-            }
-            else
-            {
-               Path destinationPath = new Path(destination);
-               if (project.exists(destinationPath))
-               {
-                  Console.write("File already exists. Skipping: " + destinationPath);
-                  continue;
-               }
-
-               Console.write("Generating: " + template.getTemplateName() + " to " + destination);
-
-               IFile file = project.getFile(destinationPath);
-
-               FileUtils.createParentFolders(file);
-
-               file.create(template.instantiate(), false, null);
-
-            }
-
-         }
+         //IProject project = selectedGenerator.getGeneratorFolder().getProject();
+//
+//         for (Template template : selectedGenerator.getTemplates())
+//         {
+//            if(!template.isSelected())
+//            {
+//               continue;
+//            }
+//            
+//            Map<String, Object> context = selectedGenerator.getParameters().asMap();
+//            String destination = template.getOutputLocation(context);
+//
+//            if (destination.equals(""))
+//            {
+//               Console.write("Generating " + template.getTemplateName() + " to console:");
+//               Console.write("-------------------------------------------------------------");
+//               Console.write(FileUtils.toString(template.instantiate()));
+//               Console.write("-------------------------------------------------------------");
+//            }
+//            else
+//            {
+//               Path destinationPath = new Path(destination);
+//               if (project.exists(destinationPath))
+//               {
+//                  Console.write("File already exists. Skipping: " + destinationPath);
+//                  continue;
+//               }
+//
+//               Console.write("Generating: " + template.getTemplateName() + " to " + destination);
+//
+//               IFile file = project.getFile(destinationPath);
+//
+//               FileUtils.createParentFolders(file);
+//
+//               file.create(template.instantiate(), false, null);
+//
+//            }
+//
+//         }
 
          Console.write("Done");
 

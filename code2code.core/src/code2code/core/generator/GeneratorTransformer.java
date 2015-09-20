@@ -20,7 +20,7 @@ import code2code.core.utils.FileUtils;
 /**
  * Knows how to create a Generator based on a directory
  */
-public class GeneratorConstructor
+public class GeneratorTransformer
 {
    /** factory for accessing the template engines */
    private final TemplateEngineFactory m_engines;
@@ -33,7 +33,7 @@ public class GeneratorConstructor
     * @param p_engines 
     * @param p_root
     */
-   public GeneratorConstructor(TemplateEngineFactory p_engines, File p_root)
+   public GeneratorTransformer(TemplateEngineFactory p_engines, File p_root)
    {
       m_engines = p_engines;
       m_root = p_root;
@@ -84,7 +84,14 @@ public class GeneratorConstructor
             TemplateEngine engine = m_engines.forFileName(templateName);
             TemplateLocator locator = new TemplateLocator(p_generatorRoot, templateName);
             
-            templates.add(new Template(engine, locator, templateName, rawLocation));
+            Template template = Template.builder()
+               .name(templateName)
+               .rawLocation(rawLocation)
+               .engine(engine)
+               .templateData(locator)
+               .build();
+            
+            templates.add(template);
 
             //TODO: Eli: Do I want to keep the nested generators? Not sure what the use case is
             //         if (templateName.endsWith(".generator"))

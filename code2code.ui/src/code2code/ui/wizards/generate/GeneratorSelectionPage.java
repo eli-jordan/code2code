@@ -17,6 +17,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import code2code.core.generator.Generator;
+import code2code.core.generator.GeneratorLocator;
+import code2code.core.templateengine.TemplateEngineFactory;
 
 class GeneratorSelectionPage extends WizardPage
 {
@@ -108,7 +110,8 @@ class GeneratorSelectionPage extends WizardPage
    {
       try
       {
-         Set<Generator> generators = GeneratorFactory.fromProject(m_project);
+         GeneratorLocator locator = new GeneratorLocator(new TemplateEngineFactory());
+         Set<Generator> generators = locator.findGenerators(m_project.getRawLocation().toFile());
          
 //         // define the preset parameters
 //         for(Generator generator : generators)
