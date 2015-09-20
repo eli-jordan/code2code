@@ -25,11 +25,16 @@ import code2code.core.templateengine.VelocityTemplateEngine;
 /**
  * Tests transforming files on disk into a generator object
  */
-public class GeneratorContructorTest
+public class GeneratorTransformerTest
 {
+   /** rule to create temporary files and folders */
    @Rule
    public TemporaryFolder m_folder = new TemporaryFolder();
    
+   /**
+    * Test that the basic template structure can be read from the file system into the correct domain model
+    * @throws Exception
+    */
    @Test
    public void basic_template_structure() throws Exception
    {
@@ -62,6 +67,10 @@ public class GeneratorContructorTest
       return hasItem(named(p_name));
    }
    
+   /**
+    * Test that the basic template structure can be read from the file system into the correct domain model
+    * @throws Exception
+    */
    @Test
    public void basic_template_structure_with_no_root() throws Exception
    {

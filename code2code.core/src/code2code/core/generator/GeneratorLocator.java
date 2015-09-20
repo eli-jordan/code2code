@@ -14,6 +14,9 @@ import org.apache.commons.io.filefilter.FileFilterUtils;
 
 import code2code.core.templateengine.TemplateEngineFactory;
 
+/**
+ * Scans for generators in a specified folder
+ */
 public class GeneratorLocator
 {
    /** the engine factory */

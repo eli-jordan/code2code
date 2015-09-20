@@ -32,6 +32,10 @@ public class Parameters implements Iterable<Parameter>
       m_parameters.addAll(p_parameters.m_parameters);
    }
    
+   /**
+    * @return
+    *   these parameters as a map
+    */
    public Map<String, Object> asMap()
    {
       Map<String, Object> context = new HashMap<String, Object>();

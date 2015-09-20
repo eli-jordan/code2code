@@ -48,11 +48,19 @@ public class Template
       return new Builder();
    }
    
+   /**
+    * Set this template as enabled
+    * @param p_selected
+    */
    public void setSelected(boolean p_selected)
    {
       m_selected = p_selected;
    }
    
+   /**
+    * @return
+    *   true if this template is enabled
+    */
    public boolean isSelected()
    {
       return m_selected;
