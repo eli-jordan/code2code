@@ -14,9 +14,6 @@ public class Parameter
    
    /** the default value */
    private final String m_defaultValue;
-   
-   /** the actual value */
-   private Object m_value;
 
    Parameter(String p_name, String p_defaultValue)
    {
@@ -37,20 +34,10 @@ public class Parameter
     * @return
     *   the value of the parameter
     */
-   public Object value()
+   public Object defaultValue()
    {
-      return m_value == null ? m_defaultValue : m_value;
+      return m_defaultValue;
    }
-   
-   /**
-    * Set the value of the parameter
-    * @param p_value
-    */
-   public void value(Object p_value)
-   {
-      m_value = p_value;
-   }
-   
 
    @Override
    public int hashCode()
@@ -84,6 +71,6 @@ public class Parameter
    @Override
    public String toString()
    {
-      return "Parameter [m_name=" + m_name + ", m_defaultValue=" + m_defaultValue + ", m_value=" + m_value + "]";
+      return "Parameter [m_name=" + m_name + ", m_defaultValue=" + m_defaultValue + "]";
    }
 }

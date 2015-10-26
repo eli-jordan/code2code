@@ -23,8 +23,7 @@ public class Template
    /** the root directory for the generator */
    private final TemplateLocator m_locator;
    
-   private boolean m_selected = true;
-   
+   /** the overriden location */
    private String m_locationOverride;
 
    /**
@@ -46,24 +45,6 @@ public class Template
    public static Builder builder()
    {
       return new Builder();
-   }
-   
-   /**
-    * Set this template as enabled
-    * @param p_selected
-    */
-   public void setSelected(boolean p_selected)
-   {
-      m_selected = p_selected;
-   }
-   
-   /**
-    * @return
-    *   true if this template is enabled
-    */
-   public boolean isSelected()
-   {
-      return m_selected;
    }
    
    String getRawLocation()

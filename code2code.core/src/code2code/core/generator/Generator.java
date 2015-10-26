@@ -6,7 +6,9 @@ package code2code.core.generator;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +24,6 @@ public class Generator
    private final String m_description;
    
    /** the directory that represents the generator */
-   @SuppressWarnings("unused")
    private final File m_generatorRoot;
 
    /** the templates that the generator houses */
@@ -55,6 +56,11 @@ public class Generator
       return m_name;
    }
    
+   public String getDisplayName()
+   {
+      return m_name.replaceAll("\\.generator$", "");
+   }
+   
    /**
     * @return
     *   the description of this generator
@@ -83,20 +89,41 @@ public class Generator
    }
    
    /**
-    * Instantiate this template
+    * @param p_templates
+    * @return
+    *   a builder that will only instantiate the specified templates
+    * @throws Exception
+    */
+   public InstanceBuilder instantiteTemplates(Collection<Template> p_templates) throws Exception
+   {
+      return new InstanceBuilder(this, new HashSet<Template>(p_templates));
+   }
+   
+   /**
+    * Instantiate all templates in this generator with the specified context
     * @param p_context
     * @throws Exception
     */
    public void instantiate(Map<String, Object> p_context) throws Exception
    {
-      for(Template template : m_templates)
+      instantiate(p_context, m_templates);
+   }
+   
+   void instantiate(Map<String, Object> p_context, Collection<Template> p_templates) throws Exception
+   {
+      for(Template template : p_templates)
       {
-         if(!template.isSelected())
+         if(!m_templates.contains(template))
          {
-            continue;
+            throw new IllegalStateException("Template " + template + " doesn't belong to this generator");
          }
          
-         File location = new File(template.getOutputLocation(p_context));
+         File location = new File(m_generatorRoot, template.getOutputLocation(p_context));
+         if(!location.exists())
+         {
+            location.getParentFile().mkdirs();
+            location.createNewFile();
+         }
          
          String contents = template.instantiate(p_context);
          FileOutputStream output = new FileOutputStream(location);
@@ -111,14 +138,10 @@ public class Generator
          }
       }
    }
-   
-   /**
-    * TODO: Eli: Add a view model in the UI, and don't track the selected values in the Parameters object
-    *            then remove this method
-    * @throws Exception
-    */
-   public void instantiate() throws Exception
+
+   @Override
+   public String toString()
    {
-      instantiate(m_parameters.asMap());
+      return "Generator [m_name=" + m_name + ", m_description=" + m_description + ", m_generatorRoot=" + m_generatorRoot + "]";
    }
 }

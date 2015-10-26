@@ -46,7 +46,6 @@ public class GeneratorTransformerTest
       Generator generator = constructor.create(generatorRoot);
       
       assertThat(generator.getName(), is("BasicTemplateStructure.generator"));
-      //assertThat(generator.getDescription(), is("A collection of templates used for testing"));
       
       Parameters parameters = generator.getParameters();
       assertThat(parameters, hasItemNamed("salutation"));

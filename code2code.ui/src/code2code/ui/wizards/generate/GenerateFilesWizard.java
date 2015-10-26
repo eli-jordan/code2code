@@ -1,13 +1,8 @@
 package code2code.ui.wizards.generate;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -15,8 +10,6 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
 import code2code.core.generator.Generator;
-import code2code.core.generator.Template;
-import code2code.core.utils.FileUtils;
 import code2code.ui.utils.Console;
 import code2code.ui.utils.EclipseGuiUtils;
 
@@ -25,17 +18,10 @@ import code2code.ui.utils.EclipseGuiUtils;
  */
 public class GenerateFilesWizard extends Wizard implements INewWizard
 {
+   private GenerateFilesWizardModel m_model = new GenerateFilesWizardModel();
+   
    /** the current selection */
    private IStructuredSelection m_selection;
-
-   /** the page used to select the generator to use */
-   private GeneratorSelectionPage m_generatorSelectionPage;
-
-   /** the page to fill in the generator parameters */
-   private GeneratorParametersPage m_generatorParametersPage;
-
-   /** the file location customisation page */
-   private GenerationCustomizationPage m_generationCustomizationPage;
    
    /** used to display error messages */
    private IWorkbench m_workbench;
@@ -56,7 +42,7 @@ public class GenerateFilesWizard extends Wizard implements INewWizard
    @Override
    public boolean performFinish()
    {
-      Generator selectedGenerator = m_generatorSelectionPage.getSelectedGenerator();
+      Generator selectedGenerator = m_model.getGenerator();
 
       if (selectedGenerator == null)
       {
@@ -67,7 +53,7 @@ public class GenerateFilesWizard extends Wizard implements INewWizard
       {
          Console.write("Processing generator: " + selectedGenerator.getName());
          
-         selectedGenerator.instantiate();
+         selectedGenerator.instantiteTemplates(m_model.getSelectedTemplates()).withContext(m_model.getParameters());
 
          //IProject project = selectedGenerator.getGeneratorFolder().getProject();
 //
@@ -130,15 +116,18 @@ public class GenerateFilesWizard extends Wizard implements INewWizard
       return true;
    }
    
-   private Map<String, String> definePresetParameters()
+   /**
+    * Defines the values for any preset variables that can be used for substitution
+    * in templates.
+    * 
+    * TODO: make this more flexible, so that more variables can easily be defined
+    */
+   private void definePresetParameters()
    {
-      Map<String, String> presets = new HashMap<String, String>();
-      
+      @SuppressWarnings("cast")
       IResource selectedResource = (IResource) ((IAdaptable) m_selection.getFirstElement()).getAdapter(IResource.class);
       String projectPath = selectedResource.getProjectRelativePath().toString();
-      presets.put("selection_relative_path", projectPath);
-      
-      return presets;
+      m_model.setParameter("selection_relative_path", projectPath);
    }
 
    /**
@@ -153,14 +142,13 @@ public class GenerateFilesWizard extends Wizard implements INewWizard
          throw new IllegalStateException("A resource must be selected to scope the available generators");
       }
       
-      IProject project = ((IResource) ((IAdaptable) m_selection.getFirstElement()).getAdapter(IResource.class)).getProject();
+      definePresetParameters();
+      
+      @SuppressWarnings("cast")
+      IProject project = (IProject) ((IResource)((IAdaptable) m_selection.getFirstElement()).getAdapter(IResource.class)).getProject();
 
-      m_generatorSelectionPage = new GeneratorSelectionPage(project, definePresetParameters());
-      m_generatorParametersPage = new GeneratorParametersPage(m_generatorSelectionPage);
-      m_generationCustomizationPage = new GenerationCustomizationPage(m_generatorParametersPage);
-
-      addPage(m_generatorSelectionPage);
-      addPage(m_generatorParametersPage);
-      addPage(m_generationCustomizationPage);
+      addPage(new GeneratorSelectionPage(project, m_model));
+      addPage(new GeneratorParametersPage(m_model));
+      addPage(new GenerationCustomizationPage(m_model));
    }
 }

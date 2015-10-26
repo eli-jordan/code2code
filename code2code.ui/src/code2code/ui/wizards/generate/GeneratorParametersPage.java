@@ -21,26 +21,25 @@ import code2code.ui.utils.EclipseGuiUtils;
  */
 public class GeneratorParametersPage extends WizardPage
 {
+   private final GenerateFilesWizardModel m_model;
+   
    /** the main container for this page */
    private Composite m_container;
 
    /** the container for the parameters input */
    private Composite m_paramsContainer;
 
-   /** the wizard page that allows the generator to be selected */
-   private final GeneratorSelectionPage m_generatorSelectionPage;
-
    /** the generator that was select on the GeneratorSelectionPage */
    private Generator m_selectedGenerator;
 
    /**
     * Constructor
-    * @param generatorSelectionPage
+    * @param p_model 
     */
-   public GeneratorParametersPage(GeneratorSelectionPage generatorSelectionPage)
+   public GeneratorParametersPage( GenerateFilesWizardModel p_model)
    {
       super("Generator Parameters", "Configure Params", null);
-      this.m_generatorSelectionPage = generatorSelectionPage;
+      m_model = p_model;
       setPageComplete(false);
    }
 
@@ -88,7 +87,7 @@ public class GeneratorParametersPage extends WizardPage
       if (!pageIsCreated() || hasGeneratorChanged())
       {
 
-         m_selectedGenerator = m_generatorSelectionPage.getSelectedGenerator();
+         m_selectedGenerator = m_model.getGenerator();
 
          if (m_paramsContainer != null)
          {
@@ -101,7 +100,7 @@ public class GeneratorParametersPage extends WizardPage
 
    private boolean hasGeneratorChanged()
    {
-      return m_selectedGenerator != m_generatorSelectionPage.getSelectedGenerator();
+      return m_selectedGenerator != m_model.getGenerator();
    }
 
    private boolean pageIsCreated()
@@ -121,7 +120,7 @@ public class GeneratorParametersPage extends WizardPage
       layout.numColumns = 2;
       m_paramsContainer.setLayout(layout);
 
-      Generator selected = m_generatorSelectionPage.getSelectedGenerator();
+      Generator selected = m_model.getGenerator();
       Parameters parameters = selected.getParameters();
 
       setDescription(selected.getDescription());
@@ -155,6 +154,7 @@ public class GeneratorParametersPage extends WizardPage
       {
          Label label = new Label(m_paramsContainer, SWT.NULL);
          label.setText(parameter.name());
+         label.setToolTipText(parameter.name());
 
          GridData data = new GridData();
          data.verticalAlignment = SWT.TOP;
@@ -172,13 +172,13 @@ public class GeneratorParametersPage extends WizardPage
    private void addParameterInput(final Parameter p_parameter)
    {
       final Text text = new Text(m_paramsContainer, SWT.BORDER | SWT.MULTI);
-      text.setText(p_parameter.value().toString());
+      text.setText(p_parameter.defaultValue().toString());
 
       text.addModifyListener(new ModifyListener()
       {
          public void modifyText(ModifyEvent e)
          {
-            p_parameter.value(text.getText());
+            m_model.setParameter(p_parameter.name(), text.getText());
          }
       });
 
@@ -186,14 +186,5 @@ public class GeneratorParametersPage extends WizardPage
       data2.widthHint = 600;
       data2.heightHint = 50;
       text.setLayoutData(data2);
-   }
-
-   /**
-    * @return
-    *   the selected generator
-    */
-   public Generator getSelectedGenerator()
-   {
-      return m_generatorSelectionPage.getSelectedGenerator();
    }
 }

@@ -5,7 +5,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import code2code.core.generator.Generator;
 import code2code.ui.utils.EclipseGuiUtils;
 
 /**
@@ -14,6 +13,8 @@ import code2code.ui.utils.EclipseGuiUtils;
  */
 public class GenerationCustomizationPage extends WizardPage
 {
+   private final GenerateFilesWizardModel m_model;
+   
    /** the parent */
    private Composite m_parent;
    
@@ -23,17 +24,14 @@ public class GenerationCustomizationPage extends WizardPage
    /** the contents of the container */
    private Composite m_contents;
 
-   /** contains the parameters input by the user */
-   private GeneratorParametersPage m_generatorParametersPage;
-
    /**
     * Constructor
-    * @param generatorParametersPage
+    * @param p_model
     */
-   public GenerationCustomizationPage(GeneratorParametersPage generatorParametersPage)
+   public GenerationCustomizationPage(GenerateFilesWizardModel p_model)
    {
       super("Templates Selection", "Customize Generation", null);
-      m_generatorParametersPage = generatorParametersPage;
+      m_model = p_model;
       setPageComplete(true);
    }
    
@@ -75,10 +73,8 @@ public class GenerationCustomizationPage extends WizardPage
       {
          m_contents.dispose();
       }
-
-      final Generator selectedGenerator = m_generatorParametersPage.getSelectedGenerator();
-
-      m_contents = new GenerationCustomizationComposite(selectedGenerator, m_container, SWT.NULL);
+      
+      m_contents = new GenerationCustomizationComposite(m_model, m_container, SWT.NULL);
 
       m_container.pack();
       m_parent.layout();

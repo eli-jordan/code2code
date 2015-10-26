@@ -1,11 +1,12 @@
 package code2code.ui.wizards.generate;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -22,27 +23,24 @@ import code2code.core.templateengine.TemplateEngineFactory;
 
 class GeneratorSelectionPage extends WizardPage
 {
+   /** the wizard model */
+   private final GenerateFilesWizardModel m_model;
+   
    /** the radio buttons used to select a generator */
    private List<Button> m_generatorRadioButtons = new ArrayList<Button>();
 
-   /** the selected generator */
-   private Generator m_selectedGenerator;
-
    /** the project used to create the list of generators */
    private final IProject m_project;
-   
-   /** the preset parameters */
-   private Map<String, String> m_presetParameters;
 
    /**
     * Constructor
-    * @param project
+    * @param p_project
     */
-   GeneratorSelectionPage(IProject project, Map<String, String> p_presetParameters)
+   GeneratorSelectionPage(IProject p_project, GenerateFilesWizardModel p_model)
    {
       super("Generator Selection", "Select a Generator", null);
-      m_project = project;
-      m_presetParameters = p_presetParameters;
+      m_model = p_model;
+      m_project = p_project;
       setPageComplete(false);
    }
    
@@ -52,7 +50,7 @@ class GeneratorSelectionPage extends WizardPage
    @Override
    public boolean isPageComplete()
    {
-      return getSelectedGenerator() != null;
+      return m_model.getGenerator() != null;
    }
 
    /**
@@ -90,7 +88,7 @@ class GeneratorSelectionPage extends WizardPage
    private void addRadioButton(Composite p_container, Generator p_generator)
    {
       Button button = new Button(p_container, SWT.RADIO);
-      button.setText(p_generator.getName());
+      button.setText(p_generator.getDisplayName());
       button.setData("generator", p_generator);
 
       button.addSelectionListener(new SelectionAdapter()
@@ -98,7 +96,8 @@ class GeneratorSelectionPage extends WizardPage
          @Override
          public void widgetSelected(SelectionEvent e)
          {
-            m_selectedGenerator = (Generator) ((Button) e.getSource()).getData("generator");
+            Generator generator = (Generator) ((Button) e.getSource()).getData("generator");
+            m_model.setGenerator(generator);
             setPageComplete(true);
          }
       });
@@ -111,13 +110,7 @@ class GeneratorSelectionPage extends WizardPage
       try
       {
          GeneratorLocator locator = new GeneratorLocator(new TemplateEngineFactory());
-         Set<Generator> generators = locator.findGenerators(m_project.getRawLocation().toFile());
-         
-//         // define the preset parameters
-//         for(Generator generator : generators)
-//         {
-//            generator.addPresetParameters(m_presetParameters);
-//         }
+         Set<Generator> generators = locator.findGenerators(getProjectLocation());
          return generators;
       }
       catch (Exception e)
@@ -126,9 +119,14 @@ class GeneratorSelectionPage extends WizardPage
       }
    }
    
-
-   public Generator getSelectedGenerator()
+   private File getProjectLocation()
    {
-      return m_selectedGenerator;
+      IPath location = m_project.getRawLocation();
+      if(location == null)
+      {
+         location = m_project.getLocation();
+      }
+      
+      return location.toFile();
    }
 }

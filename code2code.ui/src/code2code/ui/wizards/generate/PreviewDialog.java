@@ -9,7 +9,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
 import code2code.core.generator.Template;
-import code2code.core.utils.FileUtils;
 import code2code.ui.utils.EclipseGuiUtils;
 
 /**
@@ -17,19 +16,20 @@ import code2code.ui.utils.EclipseGuiUtils;
  */
 class PreviewDialog extends TrayDialog
 {
-   /** the ui element that displays the text */
-   private StyledText m_previewText;
-
-   /** the template */
+   /** the wizard model */
+   private final GenerateFilesWizardModel m_model;
+   
+   /** the template to preview */
    private final Template m_template;
    
+   /** the ui element that displays the text */
+   private StyledText m_previewText;
    
-
-   PreviewDialog(Shell shell, Template result)
+   PreviewDialog(Shell shell, GenerateFilesWizardModel p_model, Template result)
    {
       super(shell);
-
-      this.m_template = result;
+      m_model = p_model;
+      m_template = result;
       setShellStyle(getShellStyle() | SWT.RESIZE);
    }
    
@@ -59,9 +59,8 @@ class PreviewDialog extends TrayDialog
 
       try
       {
-         //m_previewText.setText(FileUtils.toString(m_template.instantiate()));
-         
-         m_previewText.setText("TODO: this is disabled for now");
+         String instance = m_template.instantiate(m_model.getParameters());
+         m_previewText.setText(instance);
       }
       catch (Exception e)
       {
@@ -80,6 +79,7 @@ class PreviewDialog extends TrayDialog
    {
       //m_template.cacheOutput(m_previewText.getText());
 
+      //TODO: allow the user to edit the text
       super.okPressed();
    }
 }

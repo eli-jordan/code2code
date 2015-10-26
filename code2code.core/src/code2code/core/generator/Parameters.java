@@ -41,7 +41,7 @@ public class Parameters implements Iterable<Parameter>
       Map<String, Object> context = new HashMap<String, Object>();
       for(Parameter parameter : m_parameters)
       {
-         context.put(parameter.name(), parameter.value());
+         context.put(parameter.name(), parameter.defaultValue());
       }
       return context;
    }

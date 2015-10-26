@@ -12,6 +12,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 
 import code2code.core.utils.FileUtils;
@@ -66,12 +67,14 @@ public class WorkingProject
 
    public static void createFolder(String folderName) throws Exception
    {
+      refresh();
       project.getFolder(folderName).getFullPath().toFile().mkdirs();
    }
 
    public static void createFileWithContents(String filePath, String content) throws Exception
    {
-      File file = project.getFile(filePath).getFullPath().toFile();
+      refresh();
+      File file = project.getFile(filePath).getRawLocation().toFile();
       FileUtils.write(content, file);
    }
 
@@ -80,13 +83,23 @@ public class WorkingProject
       createFileWithContents(filePath, "");
    }
 
-   public static boolean fileExists(String file)
+   public static boolean fileExists(String file) throws Exception
    {
+      refresh();
       return project.getFile(file).exists();
    }
 
    public static String read(String file) throws Exception
    {
+      refresh();
       return FileUtils.toString(project.getFile(file).getContents());
+   }
+   
+   private static void refresh() throws Exception
+   {
+      if(project != null)
+      {
+         project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+      }
    }
 }

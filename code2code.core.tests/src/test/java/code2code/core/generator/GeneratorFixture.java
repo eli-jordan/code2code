@@ -141,8 +141,11 @@ public class GeneratorFixture
          File params = new File(genRoot, "params.vm");
          FileUtils.write(asString(m_params), params);
          
-         File description = new File(genRoot, "description.vm");
-         FileUtils.write(m_description, description);
+         if(m_description != null)
+         {
+            File description = new File(genRoot, "description.vm");
+            FileUtils.write(m_description, description);
+         }
          
          File templates = new File(genRoot, "templates.vm");
          FileUtils.write(asString(m_templateDescriptor), templates);

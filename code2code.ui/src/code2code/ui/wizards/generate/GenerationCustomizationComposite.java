@@ -13,7 +13,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
-import code2code.core.generator.Generator;
 import code2code.core.generator.Template;
 import code2code.ui.utils.EclipseGuiUtils;
 
@@ -24,22 +23,20 @@ import code2code.ui.utils.EclipseGuiUtils;
  */
 public class GenerationCustomizationComposite extends Composite
 {
-   private final Generator m_generator;
-   
+   /** the wizard model */
+   private final GenerateFilesWizardModel m_model;
+
    /**
     * Constructor
-    * @param p_templates
-    *   the templates to display
+    * @param p_model
     * @param p_parent
-    *   the parent layout
     * @param p_style
-    *   the style
     * @throws Exception
     */
-   public GenerationCustomizationComposite(Generator p_generator, Composite p_parent, int p_style) throws Exception
+   public GenerationCustomizationComposite(GenerateFilesWizardModel p_model, Composite p_parent, int p_style) throws Exception
    {
       super(p_parent, p_style);
-      m_generator = p_generator;
+      m_model = p_model;
 
       this.setLayout(new FillLayout(SWT.VERTICAL | SWT.HORIZONTAL));
 
@@ -54,7 +51,7 @@ public class GenerationCustomizationComposite extends Composite
       layout.numColumns = 3;
       container.setLayout(layout);
 
-      for (Template template : p_generator.getTemplates())
+      for (Template template : m_model.getGenerator().getTemplates())
       {
          addTemplateUiRow(container, template);
       }
@@ -90,7 +87,15 @@ public class GenerationCustomizationComposite extends Composite
          {
             try
             {
-               p_template.setSelected(((Button) event.widget).getSelection());
+               boolean selected = ((Button) event.widget).getSelection();
+               if(selected)
+               {
+                  m_model.selectTemplate(p_template);
+               }
+               else
+               {
+                  m_model.unselectTemplate(p_template);
+               }
             }
             catch (Exception e)
             {
@@ -114,7 +119,7 @@ public class GenerationCustomizationComposite extends Composite
    private void addFileLocationTextBox(Composite p_container, final Template p_template) throws Exception
    {
       Text text = new Text(p_container, SWT.BORDER);
-      text.setText(p_template.getOutputLocation(m_generator.getParameters().asMap()));
+      text.setText(p_template.getOutputLocation(m_model.getGenerator().getParameters().asMap()));
 
       text.addModifyListener(new ModifyListener()
       {
@@ -145,7 +150,7 @@ public class GenerationCustomizationComposite extends Composite
             PreviewDialog previewDialog;
             try
             {
-               previewDialog = new PreviewDialog(GenerationCustomizationComposite.this.getShell(), p_template);
+               previewDialog = new PreviewDialog(GenerationCustomizationComposite.this.getShell(), m_model, p_template);
             }
             catch (Exception e1)
             {
