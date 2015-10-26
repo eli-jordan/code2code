@@ -1,0 +1,1 @@
+<#assign engine="Freemarker"/>Using ${engine} on templates

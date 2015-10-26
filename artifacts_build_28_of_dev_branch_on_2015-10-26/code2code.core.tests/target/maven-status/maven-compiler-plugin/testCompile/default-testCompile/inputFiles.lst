@@ -1,0 +1,6 @@
+/home/travis/build/eli-jordan/code2code/code2code.core.tests/src/test/java/code2code/core/generator/GeneratorIntegrationTest.java
+/home/travis/build/eli-jordan/code2code/code2code.core.tests/src/test/java/code2code/core/matchers/ParameterNamed.java
+/home/travis/build/eli-jordan/code2code/code2code.core.tests/src/test/java/code2code/core/generator/GeneratorTransformerTest.java
+/home/travis/build/eli-jordan/code2code/code2code.core.tests/src/test/java/code2code/core/generator/GeneratorFixture.java
+/home/travis/build/eli-jordan/code2code/code2code.core.tests/src/test/java/code2code/core/generator/TemplateTest.java
+/home/travis/build/eli-jordan/code2code/code2code.core.tests/src/test/java/code2code/core/generator/GeneratorLocatorTest.java
